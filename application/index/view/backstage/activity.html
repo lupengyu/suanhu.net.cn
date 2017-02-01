@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta content="" name="description" />
+    <meta content="webthemez" name="author" />
+    <title>活动管理</title>
+    <!-- Bootstrap Styles-->
+    <link href="/static/assets/css/bootstrap.css" rel="stylesheet" />
+    <!-- FontAwesome Styles-->
+    <link href="/static/assets/css/font-awesome.css" rel="stylesheet" />
+    <!-- Morris Chart Styles-->
+    <link href="/static/assets/js/morris/morris-0.4.3.min.css" rel="stylesheet" />
+    <!-- Custom Styles-->
+    <link href="/static/assets/css/custom-styles.css" rel="stylesheet" />
+    <!-- Google Fonts-->
+    <link rel="stylesheet" href="/static/assets/js/Lightweight-Chart/cssCharts.css">
+</head>
+
+<body>
+<div id="wrapper">
+    <nav class="navbar navbar-default top-navbar" role="navigation">
+
+        <!-- 左边的header -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse"
+                    data-target=".sidebar-collapse">
+                <span class="sr-only">Toggle navigation</span> <span
+                    class="icon-bar"></span> <span class="icon-bar"></span> <span
+                    class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="index.html"><strong><i
+                    class="icon fa fa-plane"></i> 选项</strong></a>
+
+            <div id="sideNav" href="">
+                <i class="fa fa-bars icon"></i>
+            </div>
+        </div>
+        <!-- 右边的bar栏目 -->
+        <ul class="nav navbar-top-links navbar-right">
+            <li class="dropdown"><a class="dropdown-toggle"
+                                    data-toggle="dropdown" href="#" aria-expanded="false"> <i
+                    class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
+            </a>
+                <ul class="dropdown-menu dropdown-user">
+                    <li><a href="{:Url('index/backstage/logout')}"><i class="fa fa-sign-out fa-fw"></i> 注销</a></li>
+                </ul> <!-- /.dropdown-user --></li>
+            <!-- /.dropdown -->
+        </ul>
+    </nav>
+
+
+    <!--/. NAV TOP  -->
+    <nav class="navbar-default navbar-side" role="navigation">
+        <div class="sidebar-collapse">
+            <ul class="nav" id="main-menu">
+
+                <li><a href="{:url('index/backstage/home')}"><i class="fa fa-dashboard"></i> 控制台</a></li>
+
+                <li><a class="active-menu" href="{:url('index/backstage/activity')}"><i class="fa fa-qrcode"></i> 活动管理</a></li>
+
+                <li>
+                    <a href="#"><i class="fa fa-sitemap"></i> 总体信息<span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level">
+                        <li>
+                            <a href="{:url('index/backstage/classs')}">班级总体信息</a>
+                        </li>
+                        <li>
+                            <a href="{:url('index/backstage/student')}">学生总体信息</a>
+                        </li>
+                    </ul>
+                </li>
+
+                {if($Think.session.user_status>=2)}
+                <li>
+                    <a href="#"><i class="fa fa-edit"></i> 管理员管理<span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level">
+                        <li>
+                            <a href="{:url('index/backstage/gradeadmin')}">级负责人管理</a>
+                        </li>
+                        {/if}
+                        {if($Think.session.user_status>=3)}
+                        <li>
+                            <a href="{:url('index/backstage/collegeadmin')}">院负责人管理</a>
+                        </li>
+                        {/if}
+                        {if($Think.session.user_status>=4)}
+                        <li>
+                            <a href="{:url('index/backstage/schooladmin')}">校负责人管理</a>
+                        </li>
+                        {/if}
+                        {if($Think.session.user_status>=2)}
+                    </ul>
+                </li>
+                {/if}
+
+                {if($Think.session.user_status>=4)}
+                <li><a href="{:url('index/backstage/diary')}"><i class="fa fa-desktop"></i> 操作日志</a></li>
+                {/if}
+            </ul>
+
+        </div>
+
+    </nav>
+    <!-- /. NAV SIDE  -->
+
+    <div id="page-wrapper">
+        <div class="header">
+            <h1 class="page-header">活动管理<small>Welcome {$Request.session.user_name}</small></h1>
+            <ol class="breadcrumb">
+                <li class=""><a href="{:url('index/backstage/index')}"> 控制台</a></li>
+                <li class="active"> 活动管理</li>
+            </ol>
+        </div>
+        <div id="page-inner">
+
+            <div class="row">
+                <div class="col-md-12">
+
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#0" style="margin-bottom: 20px;">
+                        发布活动
+                    </button>
+
+                    <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#1" style="margin-bottom: 20px;">
+                        高级检索
+                    </button>
+
+                    <div class="modal fade" id="0" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                    <h4 class="modal-title" id="myModalLabe2">发布活动</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-md-8 col-md-offset-2">
+                                            <form role="form" method="post" enctype="multipart/form-data" action="{:url('index/backstage/addactivity')}">
+                                                <div class="form-group">
+                                                    <label>活动名称</label><small style="color: red"> *</small>
+                                                    <input type="text" name="title" value="{$Think.session.title}" class="form-control" maxlength="28">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>活动简述</label><small style="color: red"> *</small>
+                                                    <input type="text" name="summary" value="{$Think.session.summary}" class="form-control" maxlength="20">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>详细描述</label><small style="color: red"> *</small>
+                                                    <textarea class="form-control" rows="3" value="{$Think.session.body}" name="body" maxlength="100"></textarea>
+                                                </div>
+
+                                                {if($status>=3)}
+                                                <div class="form-group">
+                                                    <label>面向学院</label><small style="color: red"> *</small>
+                                                    <div class="checkbox c-checkbox">
+                                                        <label>
+                                                            <input type="checkbox" name="school[]" value="-1">
+                                                            所有学院</label>
+                                                    </div>
+                                                    <div class="checkbox c-checkbox">
+                                                        <label>
+                                                            <input type="checkbox" name="school[]" value="1">
+                                                            航空学院</label>
+                                                    </div>
+                                                    <div class="checkbox c-checkbox">
+                                                        <label>
+                                                            <input type="checkbox" name="school[]" value="14">
+                                                            软件与微电子学院</label>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>面向年级</label><small style="color: red"> *</small>
+                                                    <div class="checkbox c-checkbox">
+                                                        <label>
+                                                            <input type="checkbox" name="grade[]" value="-1">
+                                                            所有年级</label>
+                                                    </div>
+                                                    <div class="checkbox c-checkbox">
+                                                        <label>
+                                                            <input type="checkbox" name="grade[]" value="2016">
+                                                            2016级</label>
+                                                    </div>
+                                                    <div class="checkbox c-checkbox">
+                                                        <label>
+                                                            <input type="checkbox" name="grade[]" value="2015">
+                                                            2015级</label>
+                                                    </div>
+                                                    <div class="checkbox c-checkbox">
+                                                        <label>
+                                                            <input type="checkbox" name="grade[]" value="2014">
+                                                            2014级</label>
+                                                    </div>
+                                                    <div class="checkbox c-checkbox">
+                                                        <label>
+                                                            <input type="checkbox" name="grade[]" value="2013">
+                                                            2013级</label>
+                                                    </div>
+                                                </div>
+                                                {/if}
+                                                {if($status==2)}
+                                                <div class="form-group">
+                                                    <label>面向学院</label><small style="color: red"> *</small>
+                                                    <div class="checkbox c-checkbox">
+                                                        <label>
+                                                            <input type="checkbox" name="school[]" value="-1" disabled="">
+                                                            所有学院</label>
+                                                    </div>
+                                                    <div class="checkbox c-checkbox">
+                                                        <label>
+                                                            <input type="checkbox" name="school[]" value="1" disabled=""
+                                                            {if($school==1)}
+                                                            checked=""
+                                                            {/if}
+                                                            >
+                                                            航空学院</label>
+                                                    </div>
+                                                    <div class="checkbox c-checkbox">
+                                                        <label>
+                                                            <input type="checkbox" name="school[]" value="14" disabled=""
+                                                            {if($school==14)}
+                                                            checked=""
+                                                            {/if}
+                                                            >
+                                                            软件与微电子学院</label>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>面向年级</label><small style="color: red"> *</small>
+                                                    <div class="checkbox c-checkbox">
+                                                        <label>
+                                                            <input type="checkbox" name="grade[]" value="-1">
+                                                            所有年级</label>
+                                                    </div>
+                                                    <div class="checkbox c-checkbox">
+                                                        <label>
+                                                            <input type="checkbox" name="grade[]" value="2016">
+                                                            2016级</label>
+                                                    </div>
+                                                    <div class="checkbox c-checkbox">
+                                                        <label>
+                                                            <input type="checkbox" name="grade[]" value="2015">
+                                                            2015级</label>
+                                                    </div>
+                                                    <div class="checkbox c-checkbox">
+                                                        <label>
+                                                            <input type="checkbox" name="grade[]" value="2014">
+                                                            2014级</label>
+                                                    </div>
+                                                    <div class="checkbox c-checkbox">
+                                                        <label>
+                                                            <input type="checkbox" name="grade[]" value="2013">
+                                                            2013级</label>
+                                                    </div>
+                                                </div>
+                                                {/if}
+                                                {if($status==1)}
+                                                <div class="form-group">
+                                                    <label>面向学院</label><small style="color: red"> *</small>
+                                                    <div class="checkbox c-checkbox">
+                                                        <label>
+                                                            <input type="checkbox" name="school[]" value="-1" disabled="">
+                                                            所有学院</label>
+                                                    </div>
+                                                    <div class="checkbox c-checkbox">
+                                                        <label>
+                                                            <input type="checkbox" name="school[]" value="1" disabled=""
+                                                            {if($school==1)}
+                                                            checked=""
+                                                            {/if}
+                                                            >
+                                                            航空学院</label>
+                                                    </div>
+                                                    <div class="checkbox c-checkbox">
+                                                        <label>
+                                                            <input type="checkbox" name="school[]" value="14" disabled=""
+                                                            {if($school==14)}
+                                                            checked=""
+                                                            {/if}
+                                                            >
+                                                            软件与微电子学院</label>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>面向年级</label><small style="color: red"> *</small>
+                                                    <div class="checkbox c-checkbox">
+                                                        <label>
+                                                            <input type="checkbox" name="grade[]" value="-1" disabled="">
+                                                            所有年级</label>
+                                                    </div>
+                                                    <div class="checkbox c-checkbox">
+                                                        <label>
+                                                            <input type="checkbox" name="grade[]" value="2016" disabled=""
+                                                            {if($grade==2016)}
+                                                            checked=""
+                                                            {/if}
+                                                            >
+                                                            2016级</label>
+                                                    </div>
+                                                    <div class="checkbox c-checkbox">
+                                                        <label>
+                                                            <input type="checkbox" name="grade[]" value="2015" disabled=""
+                                                            {if($grade==2015)}
+                                                            checked=""
+                                                            {/if}
+                                                            >
+                                                            2015级</label>
+                                                    </div>
+                                                    <div class="checkbox c-checkbox">
+                                                        <label>
+                                                            <input type="checkbox" name="grade[]" value="2014" disabled=""
+                                                            {if($grade==2014)}
+                                                            checked=""
+                                                            {/if}
+                                                            >
+                                                            2014级</label>
+                                                    </div>
+                                                    <div class="checkbox c-checkbox">
+                                                        <label>
+                                                            <input type="checkbox" name="grade[]" value="2013" disabled=""
+                                                            {if($grade==2013)}
+                                                            checked=""
+                                                            {/if}
+                                                            >
+                                                            2013级</label>
+                                                    </div>
+                                                </div>
+                                                {/if}
+
+                                                <div class="form-group">
+                                                    <label>活动人数</label><small style="color: red"> *</small><small>人数无限制请填写-1</small>
+                                                    <input type="text" name="number" value="{$Think.session.number}" class="form-control" maxlength="8">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>封面照片</label><small> 非必选</small>
+                                                    <input id="InputFile" type="file" name="photo"/>
+                                                </div>
+                                                <label></label>
+                                                <input type="hidden" name="__token__" value="{$Request.token}" />
+                                                <input type="submit" id="submit" class="btn btn-success" value=" 提交 " style="width: 100%">
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal fade" id="1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                    <h4 class="modal-title" id="myModalLabe2">高级检索</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-md-8 col-md-offset-2">
+                                            <form role="form" method="post" enctype="multipart/form-data" action="{:url('index/backstage/searchactivity')}">
+                                                <div class="form-group">
+                                                    <label>活动名称</label>
+                                                    <input type="text" name="title" value="{$Think.session.title}" class="form-control" maxlength="28">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>活动简述</label>
+                                                    <input type="text" name="summary" value="{$Think.session.summary}" class="form-control" maxlength="20">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>详细描述</label>
+                                                    <textarea class="form-control" rows="3" value="{$Think.session.body}" name="body" maxlength="100"></textarea>
+                                                </div>
+                                                <!--
+                                                <div class="form-group">
+                                                    <label>面向学院</label>
+                                                    <select class="form-control" name = "school">
+                                                        <option value="0"> </option>
+                                                        <option value="-1">所有学院</option>
+                                                        <option value="1">航空学院</option>
+                                                        <option value="14">软件与微电子学院</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>面向年级</label>
+                                                    <select class="form-control" name = "grade">
+                                                        <option value="0"> </option>
+                                                        <option value="-1">所有年级</option>
+                                                        <option value="2016">2016级</option>
+                                                        <option value="2015">2015级</option>
+                                                        <option value="2015">2014级</option>
+                                                        <option value="2015">2013级</option>
+                                                    </select>
+                                                </div>
+                                                -->
+                                                <div class="form-group">
+                                                    <label>活动人数</label><small style="color: red"> </small><small>人数无限制请填写-1</small>
+                                                    <input type="text" name="number" value="{$Think.session.number}" class="form-control" maxlength="8">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>发布人</label>
+                                                    <input type="text" name="user" value="{$Think.session.number}" class="form-control" maxlength="8">
+                                                </div>
+                                                <label></label>
+                                                <input type="hidden" name="__token__" value="{$Request.token}" />
+                                                <input type="submit" id="submit2" class="btn btn-success" value=" 检索 " style="width: 100%">
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {if($search==false)}
+                    <div class="panel panel-default">
+                        <div class="panel-heading" style="min-height: 0">活动列表 </div>
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th style="width: 10%">活动名称</th>
+                                        <th style="width: 10%">面向学院</th>
+                                        <th style="width: 10%">面向年级</th>
+                                        <th style="width: 10%">报名人数/活动人数</th>
+                                        <th style="width: 10%">状态</th>
+                                        <th style="width: 15%">发布时间</th>
+                                        <th style="width: 15%">操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {volist name="list" id="list" }
+                                    <tr style="min-height: 51px;">
+                                        <td style="width: 10%"><a href="{:url('index/backstage/activityinformation',['id'=>$list['id']])}">{$list.title}</a></td>
+                                        <td style="width: 10%">{$list.school}</td>
+                                        <td style="width: 10%">{$list.grade}</td>
+                                        {if($list.number==-1)}
+                                        <td style="width: 10%">{$list.sign}/无人数限制</td>
+                                        {/if}
+                                        {if($list.number!=-1)}
+                                        <td style="width: 10%">{$list.sign}/{$list.number}</td>
+                                        {/if}
+                                        {if($list.status==1)}
+                                        <td style="width: 10%;color: green">报名中</td>
+                                        {/if}
+                                        {if($list.status==0)}
+                                        <td style="width: 10%;color: blue">已截止</td>
+                                        {/if}
+                                        {if($list.status==-1)}
+                                        <td style="width: 10%;color: red">报名中止</td>
+                                        {/if}
+                                        <td style="width: 15%;">{$list.time}</td>
+                                        <td style="width: 15%">
+                                            {if($list.user_id==$Think.session.id)}
+                                            {if($list.status==1)}
+                                            <a href="javascript:if(confirm('活动截止将会结束报名并生成活动人员，此操作不可逆'))location='{:url('index/backstage/successs',['id'=>$list['id']])}'"><button type="button" class="btn btn-info">活动截止</button></a>
+                                            <a href="javascript:if(confirm('活动中止将暂停活动报名，可以在随后恢复'))location='{:url('index/backstage/ban',['id'=>$list['id']])}'"><button type="button" class="btn btn-danger">活动中止</button></a>
+                                            {/if}
+                                            {if($list.status==-1)}
+                                            <a href="javascript:if(confirm('恢复活动将会重启活动的报名'))location='{:url('index/backstage/disban',['id'=>$list['id']])}'"><button type="button" class="btn btn-success">恢复活动</button></a>
+                                            {/if}
+                                            {/if}
+                                        </td>
+                                    </tr>
+                                    {/volist}
+                                    </tbody>
+                                </table>
+                                {$page}
+                            </div>
+                        </div>
+                    </div>
+                    {/if}
+
+                    {if($search==true)}
+                    <div class="panel panel-default">
+                        <div class="panel-heading" style="min-height: 0">搜索结果 </div>
+                        <div style="padding-left: 15px;"><a href="{:url('index/backstage/actexcel')}"><button type="button" class="btn btn-success">导出至excel</button></a></div>
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th style="width: 10%">活动名称</th>
+
+                                        <th style="width: 15%">详细描述</th>
+                                        <th style="width: 10%">面向学院</th>
+                                        <th style="width: 10%">面向年级</th>
+                                        <th style="width: 10%">报名人数/活动人数</th>
+                                        <th style="width: 10%">状态</th>
+                                        <th style="width: 15%">发布时间</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {volist name="list" id="list" }
+                                    <tr style="min-height: 51px;">
+                                        <td style="width: 10%"><a target="_blank" href="{:url('index/backstage/activityinformation',['id'=>$list['id']])}">{$list.title}</a></td>
+                                        <td style="width: 15%">{$list.summary}</td>
+                                        <td style="width: 10%">{$list.school}</td>
+                                        <td style="width: 10%">{$list.grade}</td>
+                                        {if($list.number==-1)}
+                                        <td style="width: 10%">{$list.sign}/无人数限制</td>
+                                        {/if}
+                                        {if($list.number!=-1)}
+                                        <td style="width: 10%">{$list.sign}/{$list.number}</td>
+                                        {/if}
+                                        {if($list.status==1)}
+                                        <td style="width: 10%;color: green">报名中</td>
+                                        {/if}
+                                        {if($list.status==0)}
+                                        <td style="width: 10%;color: blue">已截止</td>
+                                        {/if}
+                                        {if($list.status==-1)}
+                                        <td style="width: 10%;color: red">报名中止</td>
+                                        {/if}
+                                        <td style="width: 15%;">{$list.time}</td>
+                                    </tr>
+                                    {/volist}
+                                    </tbody>
+                                </table>
+                                {$page}
+                            </div>
+                        </div>
+                    </div>
+                    {/if}
+
+            </div>
+
+            <footer>
+
+            </footer>
+        </div>
+        <!-- /. PAGE INNER  -->
+    </div>
+    <!-- /. PAGE WRAPPER  -->
+</div>
+<!-- /. WRAPPER  -->
+<!-- JS Scripts-->
+<!-- jQuery Js -->
+<script src="/static/assets/js/jquery-1.10.2.js"></script>
+<!-- Bootstrap Js -->
+<script src="/static/assets/js/bootstrap.min.js"></script>
+
+<!-- Metis Menu Js -->
+<script src="/static/assets/js/jquery.metisMenu.js"></script>
+<!-- Morris Chart Js -->
+<script src="/static/assets/js/morris/raphael-2.1.0.min.js"></script>
+<script src="/static/assets/js/morris/morris.js"></script>
+
+
+<script src="/static/assets/js/easypiechart.js"></script>
+<script src="/static/assets/js/easypiechart-data.js"></script>
+
+<script src="/static/assets/js/Lightweight-Chart/jquery.chart.js"></script>
+
+<!-- Custom Js -->
+<script src="/static/assets/js/custom-scripts.js"></script>
+
+
+<!-- Chart Js -->
+<script type="text/javascript" src="/static/assets/js/Chart.min.js"></script>
+<script type="text/javascript" src="/static/assets/js/chartjs.js"></script>
+
+</body>
+
+</html>

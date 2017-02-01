@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>信息填写</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="static/register/css/normalize.css">
+    <link rel="stylesheet" type="text/css" href="static/register/css/skeleton.css">
+    <link rel="stylesheet" type="text/css" href="static/register/css/custom.css">
+
+</head>
+<body>
+<div class="section header">
+    <div class="container">
+        <div class="row">
+            <form class="form-style">
+                <ul>
+                    <li>
+                        <label for="name">Name</label>
+                        <input type="text" name="name" maxlength="10">
+                        <span>请输入你的姓名</span>
+                    </li>
+                    <li>
+                        <label for="email">Email</label>
+                        <input type="email" name="email" maxlength="100">
+                        <span>请输入一个合法的邮箱地址</span>
+                    </li>
+                    <li id="school">
+                        <label for="school">School</label>
+                        <select name="school" onchange="shcoolcheck(this)">
+                            <option value="default">请选择</option>
+                            <option value="air">航空学院</option>
+                            <option value="software">软件与微电子学院</option>
+                        </select>
+                        <span>选择你的学院</span>
+                    </li>
+                    <li id="grade">
+                        <label for="grade">Grade</label>
+                        <select name="grade" onchange="gradecheck(this)">
+                            <option value="default">请选择</option>
+                            <option value="13">13级</option>
+                            <option value="14">14级</option>
+                            <option value="15">15级</option>
+                            <option value="16">16级</option>
+                        </select>
+                        <span>选择你的年级</span>
+                    </li>
+                    <li id="class">
+                        <label for="class">Class</label>
+                        <select name="class">
+                            <option value="default">请选择</option>
+                            <!-- air g13 -->
+                            <option value="01011301" class="air g13">01011301</option>
+                            <option value="01011302" class="air g13">01011302</option>
+                            <!-- air g14 -->
+                            <option value="01011401" class="air g14">01011401</option>
+                            <option value="01011402" class="air g14">01011402</option>
+                            <!-- air g15 -->
+                            <option value="01011501" class="air g15">01011501</option>
+                            <option value="01011502" class="air g15">01011502</option>
+                            <!-- air g16 -->
+                            <option value="01011601" class="air g16">01011601</option>
+                            <option value="01011602" class="air g16">01011602</option>
+                            <!-- software g13 -->
+                            <option value="14011301" class="software g13">14011301</option>
+                            <option value="14011302" class="software g13">14011302</option>
+                            <!-- software g14 -->
+                            <option value="14011401" class="software g14">14011401</option>
+                            <option value="14011402" class="software g14">14011402</option>
+                            <!-- software g15 -->
+                            <option value="14011501" class="software g15">14011501</option>
+                            <option value="14011502" class="software g15">14011502</option>
+                            <!-- software g16 -->
+                            <option value="14011601" class="software g16">14011601</option>
+                            <option value="14011602" class="software g16">14011602</option>
+                        </select>
+                        <span>选择你的班级</span>
+                    </li>
+                    <li>
+                        <input type="submit" value="Send This" >
+                    </li>
+                </ul>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+<script src="static/register/js/jquery.js"></script>
+<script src="static/register/js/index.js"></script>
+<script type="text/javascript">
+    //auto expand textarea
+    function adjust_textarea(h) {
+        h.style.height = "20px";
+        h.style.height = (h.scrollHeight)+"px";
+    }
+</script>
+</html>

@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta content="" name="description" />
+    <meta content="webthemez" name="author" />
+    <title>学生总体信息</title>
+    <!-- Bootstrap Styles-->
+    <link href="/static/assets/css/bootstrap.css" rel="stylesheet" />
+    <!-- FontAwesome Styles-->
+    <link href="/static/assets/css/font-awesome.css" rel="stylesheet" />
+    <!-- Morris Chart Styles-->
+    <link href="/static/assets/js/morris/morris-0.4.3.min.css" rel="stylesheet" />
+    <!-- Custom Styles-->
+    <link href="/static/assets/css/custom-styles.css" rel="stylesheet" />
+    <!-- Google Fonts-->
+    <link rel="stylesheet" href="/static/assets/js/Lightweight-Chart/cssCharts.css">
+</head>
+
+<body>
+<div id="wrapper">
+    <nav class="navbar navbar-default top-navbar" role="navigation">
+
+        <!-- 左边的header -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse"
+                    data-target=".sidebar-collapse">
+                <span class="sr-only">Toggle navigation</span> <span
+                    class="icon-bar"></span> <span class="icon-bar"></span> <span
+                    class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="index.html"><strong><i
+                    class="icon fa fa-plane"></i> 选项</strong></a>
+
+            <div id="sideNav" href="">
+                <i class="fa fa-bars icon"></i>
+            </div>
+        </div>
+        <!-- 右边的bar栏目 -->
+        <ul class="nav navbar-top-links navbar-right">
+            <li class="dropdown"><a class="dropdown-toggle"
+                                    data-toggle="dropdown" href="#" aria-expanded="false"> <i
+                    class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
+            </a>
+                <ul class="dropdown-menu dropdown-user">
+                    <li><a href="{:Url('index/backstage/logout')}"><i class="fa fa-sign-out fa-fw"></i> 注销</a></li>
+                </ul> <!-- /.dropdown-user --></li>
+            <!-- /.dropdown -->
+        </ul>
+    </nav>
+
+
+    <!--/. NAV TOP  -->
+    <nav class="navbar-default navbar-side" role="navigation">
+        <div class="sidebar-collapse">
+            <ul class="nav" id="main-menu">
+
+                <li><a href="{:url('index/backstage/home')}"><i
+                        class="fa fa-dashboard"></i> 控制台</a></li>
+
+                <li><a href="{:url('index/backstage/activity')}"><i class="fa fa-qrcode"></i> 活动管理</a></li>
+
+                <li  class="active">
+                    <a href="#"><i class="fa fa-sitemap"></i> 总体信息<span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level">                        <li>
+                        <a href="{:url('index/backstage/classs')}">班级总体信息</a>
+                    </li>
+                        <li>
+                            <a class="active-menu" href="{:url('index/backstage/student')}">学生总体信息</a>
+                        </li>
+                    </ul>
+                </li>
+
+                {if($Think.session.user_status>=2)}
+                <li>
+                    <a href="#"><i class="fa fa-edit"></i> 管理员管理<span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level">
+                        <li>
+                            <a href="{:url('index/backstage/gradeadmin')}">级负责人管理</a>
+                        </li>
+                        {/if}
+                        {if($Think.session.user_status>=3)}
+                        <li>
+                            <a href="{:url('index/backstage/collegeadmin')}">院负责人管理</a>
+                        </li>
+                        {/if}
+                        {if($Think.session.user_status>=4)}
+                        <li>
+                            <a href="{:url('index/backstage/schooladmin')}">校负责人管理</a>
+                        </li>
+                        {/if}
+                        {if($Think.session.user_status>=2)}
+                    </ul>
+                </li>
+                {/if}
+
+                {if($Think.session.user_status>=4)}
+                <li><a href="{:url('index/backstage/diary')}"><i class="fa fa-desktop"></i> 操作日志</a></li>
+                {/if}
+
+            </ul>
+
+        </div>
+
+    </nav>
+    <!-- /. NAV SIDE  -->
+
+    <div id="page-wrapper">
+        <div class="header">
+            <h1 class="page-header">学生总体信息<small>Welcome {$Request.session.user_name}</small></h1>
+            <ol class="breadcrumb">
+                <li class=""><a href="{:url('index/backstage/index')}"> 控制台</a></li>
+                <li class="active"> 学生总体信息</li>
+            </ol>
+
+        </div>
+        <div id="page-inner">
+
+            <div class="row">
+                <div class="col-md-12">
+
+                    <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#1" style="margin-bottom: 20px;">
+                        高级检索
+                    </button>
+
+                    <div class="modal fade" id="1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                    <h4 class="modal-title" id="myModalLabe2">高级检索</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-md-8 col-md-offset-2">
+                                            <form role="form" method="post" enctype="multipart/form-data" action="{:url('index/backstage/searchstudent')}">
+                                                <div class="form-group">
+                                                    <label>姓名</label>
+                                                    <input type="text" name="name" value="" class="form-control" maxlength="28">
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label>学号</label>
+                                                    <input type="text" name="code" value="" class="form-control" maxlength="28">
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label>学院</label>
+                                                    <select class="form-control" name = "school">
+                                                        <option value="0"> </option>
+                                                        <option value="0">所有学院</option>
+                                                        <option value="1">航空学院</option>
+                                                        <option value="14">软件与微电子学院</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>年级</label>
+                                                    <select class="form-control" name = "grade">
+                                                        <option value="0"> </option>
+                                                        <option value="0">所有年级</option>
+                                                        <option value="2016">2016级</option>
+                                                        <option value="2015">2015级</option>
+                                                        <option value="2015">2014级</option>
+                                                        <option value="2015">2013级</option>
+                                                    </select>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label>班级</label>
+                                                    <input type="text" name="class" value="" class="form-control" maxlength="28">
+                                                </div>
+
+                                                <label></label>
+                                                <input type="hidden" name="__token__" value="{$Request.token}" />
+                                                <input type="submit" id="submit2" class="btn btn-success" value=" 检索 " style="width: 100%">
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading" style="min-height: 0">
+                            {if($search==false)}
+                            学生列表
+                            {/if}
+                            {if($search==true)}
+                            搜索结果
+                            {/if}
+                        </div>
+                        {if($search==true)}
+                        <div style="padding-left: 15px;"><a href="{:url('index/backstage/studentexcel')}"><button type="button" class="btn btn-success">导出至excel</button></a></div>
+                        {/if}
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered table-hover">
+                                    <thead>
+
+                                    <tr>
+                                        <th style="width: 10%">姓名</th>
+                                        <th style="width: 10%">学号</th>
+                                        <th style="width: 10%">学院</th>
+                                        <th style="width: 10%">年级</th>
+                                        <th style="width: 10%">班级</th>
+                                        <th style="width: 5%">报名次数</th>
+                                        <th style="width: 5%">参与次数</th>
+
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {volist name="list" id="list" }
+                                    <tr>
+                                        <td style="width: 10%"><a
+                                                {if($search==true)}
+                                                target="_blank"
+                                                {/if}
+                                                href="{:url('index/backstage/studentinformation',['id'=>$list.id])}">{$list.name}</a></td>
+                                        <td style="width: 10%">{$list.code}</td>
+                                        <td style="width: 10%">
+                                            {if($list.school==1)}
+                                            航空学院
+                                            {/if}
+                                            {if($list.school==14)}
+                                            软件与微电子学院
+                                            {/if}
+                                        </td>
+                                        <td style="width: 10%">{$list.grade}级</td>
+                                        <td style="width: 10%"><a
+                                                {if($search==true)}
+                                                target="_blank"
+                                                {/if}
+                                                href="{:url('index/backstage/classinformation',['id'=>$list.class])}">{$list.class}</a></td>
+                                        <td style="width: 5%;">{$list.sign}</td>
+                                        <td style="width: 5%; color: green;">{$list.success}</td>
+
+                                    </tr>
+                                    {/volist}
+                                    </tbody>
+                                </table>
+                                {$page}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <footer>
+
+            </footer>
+        </div>
+        <!-- /. PAGE INNER  -->
+    </div>
+    <!-- /. PAGE WRAPPER  -->
+</div>
+<!-- /. WRAPPER  -->
+<!-- JS Scripts-->
+<!-- jQuery Js -->
+<script src="/static/assets/js/jquery-1.10.2.js"></script>
+<!-- Bootstrap Js -->
+<script src="/static/assets/js/bootstrap.min.js"></script>
+
+<!-- Metis Menu Js -->
+<script src="/static/assets/js/jquery.metisMenu.js"></script>
+<!-- Morris Chart Js -->
+<script src="/static/assets/js/morris/raphael-2.1.0.min.js"></script>
+<script src="/static/assets/js/morris/morris.js"></script>
+
+
+<script src="/static/assets/js/easypiechart.js"></script>
+<script src="/static/assets/js/easypiechart-data.js"></script>
+
+<script src="/static/assets/js/Lightweight-Chart/jquery.chart.js"></script>
+
+<!-- Custom Js -->
+<script src="/static/assets/js/custom-scripts.js"></script>
+
+
+<!-- Chart Js -->
+<script type="text/javascript" src="/static/assets/js/Chart.min.js"></script>
+<script type="text/javascript" src="/static/assets/js/chartjs.js"></script>
+
+</body>
+
+</html>

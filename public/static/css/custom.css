@@ -1,0 +1,264 @@
+.header {
+    background: url(../img/hbg-1.jpg) 0 center;
+    background-size: cover;
+    transition: all 0.5s ease-out;
+}
+
+#logo {
+    padding-top: 20px;
+}
+
+#logo img {
+    width: 100%;
+}
+
+.slogan {
+    text-align: center;
+    margin: 6em 0;
+    color: #fff;
+}
+
+.slogan .button {
+    text-align: center;
+}
+
+#join {
+    background-color: #fff;
+    border: none;
+    box-shadow: 0 3px 20px rgba(255,255,255,0.8);
+}
+
+#login {
+    background-color: transparent;
+    border: 1px solid #fff;
+    color: #fff;
+}
+
+.bg-menu {
+    display: none;
+    margin-top: 100px;
+    margin-bottom: 40px;
+    background-color: rgba(255,255,255,0.2);
+    border-bottom: none;
+}
+
+.bg-menu ul {
+    position: relative;
+    top: 10px;
+    width: 97%;
+    margin: 0 auto;
+    list-style: none;
+    background: linear-gradient(top,rgba(255,255,255,0.6),rgba(255,255,255,0.8));
+    background: -webkit-linear-gradient(top,rgba(255,255,255,0.6),rgba(255,255,255,0.8));
+    background: -moz-linear-gradient(top,rgba(255,255,255,0.6),rgba(255,255,255,0.8));
+}
+
+
+.bg-menu ul li {
+    position: relative;
+    width: 31.3%;
+    display: inline-block;
+    margin: 1% 1%;
+}
+
+.bg-menu ul li:hover .img-tips {
+    opacity: 1;
+}
+
+.bg-menu img {
+    width: 100%;
+}
+
+.img-tips {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 92%;
+    width: 100%;
+    color: #fff;
+    background-color: rgba(0,0,0,0.6);
+    opacity: 0;
+    transition: all 0.35s ease-in;
+    text-align: center;
+}
+
+.img-tips h4 {
+    margin-top: 0.8em;
+}
+
+.img-tips p {
+    display: none;
+}
+
+.heading {
+    margin-top: -40px;
+}
+
+.heading .container {
+    background-color: rgba(255,255,255,0.2);
+}
+
+.heading .row {
+    width: 97%;
+    margin: 0 auto;
+    position: relative;
+    top: 10px;
+    background: linear-gradient(top,rgba(255,255,255,0.8),#fff 50%);
+    background: -webkit-linear-gradient(top,rgba(255,255,255,0.8),#fff 50%);
+    background: -moz-linear-gradient(top,rgba(255,255,255,0.8),#fff 50%);
+    box-shadow: 0 1px 3px #fff;
+}
+
+.title h5 {
+    margin: 1%;
+}
+
+.select {
+    padding-left: 1%;
+}
+
+.activities {
+    background-color: rgb(242,242,242);
+    padding-bottom: 20px;
+    margin-top: -18px;
+}
+
+.activities .row {
+    width: 97%;
+    margin: 0 auto;
+}
+
+.activity {
+    padding: 0.3% 1%;
+    margin-top: 16px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px #fff;
+}
+
+.a-title {
+    margin-bottom: 5px;
+}
+
+#num{
+    float: right;
+    color: #666;
+}
+
+.a-img {
+    position: relative;
+}
+
+.a-img img {
+    width: 100%;
+}
+
+.a-buttons a {
+    display: inline-block;
+    width: 50%;
+    text-align: center;
+    font-weight: 600;
+}
+
+.more {
+    color: #999;
+}
+
+.more:hover {
+    color: #000;
+}
+
+.ending {
+    background-color: #000;
+}
+
+.ending .row {
+    width: 97%;
+    margin: 0 auto;
+    padding: 8px 0;
+}
+
+.ending span {
+    margin: 0;
+    color: #ddd;
+    font-size: 1.2rem;
+}
+
+#country {
+    float: right;
+    position: relative;
+}
+
+.ending img {
+    position: absolute;
+    right: 2.2em;
+    top: 6px;
+    height: 1em;
+}
+
+/* Larger than mobile */
+@media (min-width: 550px) {
+    #hr {
+        display: none;
+    }
+
+    .title h5 {
+        font-size: 1.5rem;
+        font-weight: 500;
+        margin: 0.6%;
+    }
+
+    .select {
+        text-align: right;
+        padding-right: 1%;
+    }
+}
+
+/* Larger than pad */
+@media (min-width: 800px) {
+    .img-tips {
+        height: 94%;
+    }
+
+    .bg-menu {
+        display: block;
+    }
+
+    .slogan .button {
+        width: 18%;
+    }
+
+    .title h5 {
+        margin: 0 8%;
+    }
+
+    .activities {
+        margin-top: 0;
+    }
+
+    .a-img:hover .img-tips {
+        opacity: 1;
+    }
+}
+
+/* Larger than desktop */
+@media (min-width: 1025px) {
+    .img-tips {
+        height: 95%;
+    }
+
+    .img-tips p {
+        display: block;
+    }
+
+    .slogan {
+        margin-top: 10em;
+    }
+
+    .slogan h5 {
+        font-size: 3.6rem;
+    }
+
+    .title h5 {
+        font-size: 2.4rem;
+    }
+}

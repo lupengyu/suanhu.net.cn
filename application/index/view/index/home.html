@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>活动报名系统</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--
+    <link rel="stylesheet" type="text/css" href="static/css/bootstrap.min.css">
+    -->
+    <link rel="stylesheet" type="text/css" href="static/css/normalize.css">
+    <link rel="stylesheet" type="text/css" href="static/css/skeleton.css">
+    <link rel="stylesheet" type="text/css" href="static/css/custom.css">
+    <link rel="stylesheet" type="text/css" href="static/css/common.css">
+    <script src="static/js/jquery.js"></script>
+    <script src="static/js/index.js"></script>
+    <style type="text/css">
+        .pagination {
+            display: inline-block;
+            padding-left: 0;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        .pagination > li {
+            display: inline;
+        }
+        .pagination > li > a,
+        .pagination > li > span {
+            position: relative;
+            float: left;
+            padding: 6px 12px;
+            margin-left: -1px;
+            line-height: 1.42857143;
+            color: #337ab7;
+            text-decoration: none;
+            background-color: #fff;
+            border: 1px solid #ddd;
+        }
+        .pagination > li:first-child > a,
+        .pagination > li:first-child > span {
+            margin-left: 0;
+            border-top-left-radius: 4px;
+            border-bottom-left-radius: 4px;
+        }
+        .pagination > li:last-child > a,
+        .pagination > li:last-child > span {
+            border-top-right-radius: 4px;
+            border-bottom-right-radius: 4px;
+        }
+        .pagination > li > a:hover,
+        .pagination > li > span:hover,
+        .pagination > li > a:focus,
+        .pagination > li > span:focus {
+            color: #23527c;
+            background-color: #eee;
+            border-color: #ddd;
+        }
+        .pagination > .active > a,
+        .pagination > .active > span,
+        .pagination > .active > a:hover,
+        .pagination > .active > span:hover,
+        .pagination > .active > a:focus,
+        .pagination > .active > span:focus {
+            z-index: 2;
+            color: #fff;
+            cursor: default;
+            background-color: #337ab7;
+            border-color: #337ab7;
+        }
+        .pagination > .disabled > span,
+        .pagination > .disabled > span:hover,
+        .pagination > .disabled > span:focus,
+        .pagination > .disabled > a,
+        .pagination > .disabled > a:hover,
+        .pagination > .disabled > a:focus {
+            color: #777;
+            cursor: not-allowed;
+            background-color: #fff;
+            border-color: #ddd;
+        }
+        .pagination-lg > li > a,
+        .pagination-lg > li > span {
+            padding: 10px 16px;
+            font-size: 18px;
+        }
+        .pagination-lg > li:first-child > a,
+        .pagination-lg > li:first-child > span {
+            border-top-left-radius: 6px;
+            border-bottom-left-radius: 6px;
+        }
+        .pagination-lg > li:last-child > a,
+        .pagination-lg > li:last-child > span {
+            border-top-right-radius: 6px;
+            border-bottom-right-radius: 6px;
+        }
+        .pagination-sm > li > a,
+        .pagination-sm > li > span {
+            padding: 5px 10px;
+            font-size: 12px;
+        }
+        .pagination-sm > li:first-child > a,
+        .pagination-sm > li:first-child > span {
+            border-top-left-radius: 3px;
+            border-bottom-left-radius: 3px;
+        }
+        .pagination-sm > li:last-child > a,
+        .pagination-sm > li:last-child > span {
+            border-top-right-radius: 3px;
+            border-bottom-right-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+    <!-- header section -->
+    <div class="section header">
+        <div class="container">
+            <!-- logo -->
+            <div class="row" id="logo">
+                <div class="two columns">
+                    <img src="static/img/logo.PNG">
+                </div>
+            </div>
+            <!-- slogan -->
+            <div class="row slogan">
+                <h1>活动 一直都在</h1>
+                <h5>现在就赶快动起手来点击立即参加</h5>
+
+            </div>
+            <!-- bg-menu -->
+            <div class="row bg-menu">
+                <ul>
+                    <li>
+                        <img src="static/img/hbg-1.jpg">
+                        <figcation class="img-tips">
+                            <h4>Title of img</h4>
+                            <p>tips of img</p>
+                        </figcation>
+                    </li><li>
+                        <img src="static/img/hbg-2.jpg">
+                        <figcation class="img-tips">
+                            <h4>Title of img</h4>
+                            <p>tips of img</p>
+                        </figcation>
+                    </li><li>
+                        <img src="static/img/hbg-1.jpg">
+                        <figcation class="img-tips">
+                            <h4>Title of img</h4>
+                            <p>tips of img</p>
+                        </figcation>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- heading section -->
+    <div class="section heading">
+        <div class="container">
+            <!-- title -->
+            <div class="row title">
+                <div class="two columns">
+                    <h5>活动列表</h5>
+                </div>
+                <div class="ten columns select">
+                    <span>排序</span>
+                    <a href="{:url('index/index/home_people')}">按人气</a>
+                    <a href="{:url('index/index/home')}">按时间</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- activities section -->
+    <div class="section activities">
+        <div class="container">
+            <div class="row">
+                {volist name="list" id="item" }
+                <div class="four columns activity">
+                    <div class="a-title">
+                        <span>{$item.title}</span>
+                        {if($item.number==-1)}
+                        <span id="num">{$item.sign}/无人数限制</span>
+                        {/if}
+                        {if($item.number!=-1)}
+                        <span id="num">{$item.sign}/{$item.number}</span>
+                        {/if}
+                    </div>
+                    <div class="a-img">
+                        {if($item.photo==null)}
+                        <img src="static/img/a-1.jpg">
+                        {/if}
+                        {if($item.photo!=null)}
+                        <img src="uploads/{$item.photo}">
+                        {/if}
+                        <figcation class="img-tips">
+                            <h4>{$item.summary}</h4>
+                        </figcation>
+                    </div>
+                    <div class="a-buttons">
+                        <a class="submit" href="{:url('index/index/sign',['id'=>$item['id']])}">报名</a><a class="more" href="">详情</a>
+                    </div>
+                </div>
+                {/volist}
+
+            </div>
+            <!--
+            <div style="margin: 0px auto;padding-left: 15px;">
+                {//$page}
+            </div>-->
+        </div>
+    </div>
+
+    <!-- ending -->
+    <div class="section ending">
+        <div class="container">
+            <div class="row">
+                <span>软微 © 2016 保留所有权利 象征写写</span>
+                <div id="country">
+                    <img src="static/img/china-1.png">
+                    <span>中国</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
