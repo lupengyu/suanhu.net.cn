@@ -29,7 +29,7 @@ class Index extends Controller
     /**
      * 主页自动跳转认证界面
      *
-     * @return mixed 主页面
+     * @return mixed 主页面渲染
      */
     public function index()
     {
@@ -92,7 +92,6 @@ class Index extends Controller
 
     /**
      * 用户信息绑定
-     *
      */
     public function userregister()
     {
@@ -164,6 +163,10 @@ class Index extends Controller
         return $this->redirect('index/index/home');
     }
 
+    /**
+     * 首页
+     * @return mixed|void 首页渲染
+     */
     public function home()
     {
         Session::start();
@@ -177,7 +180,6 @@ class Index extends Controller
         $grade = $user->grade;
 
         $act = ActivityModel::where('status',1)->order('id','desc')->select();
-
         $list = array();
         for($i=0,$cnt = sizeof($act);$i<$cnt;$i++)
         {
@@ -192,7 +194,6 @@ class Index extends Controller
                     if($navigate->grade==$grade||$navigate->grade==null)
                     {
                         array_push($list,$item);
-                        //$collection->appends($list,$list);
                         break;
                     }
                 }
@@ -205,44 +206,15 @@ class Index extends Controller
                 array_pop($list);
             } else break;
         }
-        //dump($list);
-        //dump($list);
-        //$count = count($list);
-        //$paginate = new Bootstrap(null,3,1,sizeof($list));
-        //$page = $paginate->render();
-        //$arraylist = new Collection($list,$paginate);
-        //$page = $arraylist->render();
-        //dump($arraylist);
-        //dump($page);
-        //$arraylist->currentPage();
-        //$list = $arraylist->paginate(3);
-        //$page = $list->render();
-        //$page = $arraylist->render();
-        //dump($arraylist);
-        //dump('---------------------------------------------');
-        //$list = $this->array_page($list,3);
-        //$page = $list->render();
-        //dump($list);
-        //dump('---------------------------------------------------');
-        //$asd = Bootstrap::make();
-        //$list = ActivityModel::where('status',1)->order('id','desc')->paginate(3);
-        //$array = ActivityModel::where('status',1)->order('id','desc')->paginate()->toArray();
-        //dump($array);
-        //$array = $list->toArray();
-        //dump($list);
-
-        //dump($list->shift());
-        //$sum = ActivityModel::where('status',1)->count();
-
-        //$page = $list->render();
-        //dump($list);
-        //dump($page);
 
         $this->assign('list',$list);
-        //$this->assign('page', $page);
         return $this->fetch('index/home');
     }
 
+    /**
+     * 首页-活动按人气排序
+     * @return mixed|void 首页渲染
+     */
     public function home_people()
     {
         Session::start();
@@ -252,14 +224,44 @@ class Index extends Controller
         {
             return $this->redirect('index/index/index');
         }
-        $list = ActivityModel::where('status',1)->order('see','desc')->paginate(3);
-        $sum = ActivityModel::where('status',1)->count();
-        $page = $list->render();
+        $school = $user->school;
+        $grade = $user->grade;
+
+        $act = ActivityModel::where('status',1)->order('see','desc')->select();
+        $list = array();
+        for($i=0,$cnt = sizeof($act);$i<$cnt;$i++)
+        {
+            $item = $act[$i];
+            $id = $item->id;
+            $result = NavigateModel::where('activity_id',$id)->select();
+            for($j=0;$j<sizeof($result);$j++)
+            {
+                $navigate = $result[$j];
+                if($navigate->school==$school||$navigate->school==null)
+                {
+                    if($navigate->grade==$grade||$navigate->grade==null)
+                    {
+                        array_push($list,$item);
+                        break;
+                    }
+                }
+            }
+        }
+        for($i=1;$i>0;$i++)
+        {
+            if(sizeof($list)>3)
+            {
+                array_pop($list);
+            } else break;
+        }
         $this->assign('list',$list);
-        $this->assign('page', $page);
         return $this->fetch('index/home');
     }
 
+    /**
+     * 活动报名
+     * @param string $id 报名活动id
+     */
     public function sign($id='')
     {
         Session::start();
