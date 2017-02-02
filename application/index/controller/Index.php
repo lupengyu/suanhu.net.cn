@@ -1,6 +1,7 @@
 <?php
 namespace app\index\controller;
 
+use think\Page;
 use think\Paginator;
 use think\Controller;
 use think\Cookie;
@@ -199,15 +200,27 @@ class Index extends Controller
                 }
             }
         }
+
         for($i=1;$i>0;$i++)
         {
-            if(sizeof($list)>3)
+            if(sizeof($list)>15)
             {
                 array_pop($list);
             } else break;
         }
 
+
+        import('ORG.Util.Page');
+        $count=count($list);
+        $Page=new Page($count,3);
+        $list=array_slice($list,$Page->firstRow,$Page->listRows);
+        //dump($Page->nowPage);
+        //dump($Page->totalPages);
+        $page = $Page->show();
+
         $this->assign('list',$list);
+        $this->assign('page',$Page->nowPage);
+        $this->assign('lastpage',$Page->totalPages);
         return $this->fetch('index/home');
     }
 

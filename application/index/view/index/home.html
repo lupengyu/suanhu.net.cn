@@ -110,6 +110,53 @@
     </style>
 </head>
 <body>
+
+    <div class="section topbar">
+        <div class="container">
+            <!-- logo -->
+            <div class="row">
+                <div class="two columns" id="logo-black">
+                    <img src="/static/img/logo.PNG">
+                    <span id="more">
+                            <img src="/static/img/menu.png">
+                        </span>
+                </div>
+                <div class="ten columns nav">
+                    <a>
+                        用户名
+                        <ul>
+                            <li>个人中心</li>
+                            <li>活动管理</li>
+                            <li>注销</li>
+                        </ul>
+                    </a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- nav-mobile section -->
+    <div class="nav-mobile">
+        <span id="close">X</span>
+        <!-- 主选项卡 -->
+        <ul class="nav-mobile-main">
+            <li class="now">个人中心</li>
+            <li>后台管理</li>
+        </ul>
+        <!-- 子选项卡 -->
+        <div class="nav-mobile-sub">
+            <ul>
+                <li>个人资料</li>
+                <li>注销</li>
+            </ul>
+            <ul>
+                <li>活动管理</li>
+                <li>XX管理</li>
+            </ul>
+        </div>
+    </div>
+
     <!-- header section -->
     <div class="section header">
         <div class="container">
@@ -202,10 +249,136 @@
                 {/volist}
 
             </div>
-            <!--
+
             <div style="margin: 0px auto;padding-left: 15px;">
-                {//$page}
-            </div>-->
+                {if($lastpage!=1)}
+                <ul class="pagination">
+
+                    {if($page==1)}
+                    <li class="disabled">
+                        <span>&laquo;</span>
+                    </li>
+                    <li class="active">
+                        <span>1</span>
+                    </li>
+                    {/if}
+
+                    {if($page!=1)}
+                    <li>
+                        <a href="/home.html?p=1">&laquo;</a>
+                    </li>
+                    <li>
+                        <a href="/home.html?p=1">1</a>
+                    </li>
+                    {/if}
+
+                    {if($page<=6 and $lastpage-$page<=5)}
+                        {for start="2" end="$lastpage"}
+                            {if($i==$page)}
+                            <li class="active">
+                                <span>{$page}</span>
+                            </li>
+                            {/if}
+                            {if($i!=$page)}
+                            <li>
+                                <a href="/home.html?p={$i}">{$i}</a>
+                            </li>
+                            {/if}
+                        {/for}
+                    {/if}
+
+                    {if($page<=6 and $lastpage-$page>5)}
+                        {for start="2" end="7"}
+                            {if($i==$page)}
+                            <li class="active">
+                                <span>{$page}</span>
+                            </li>
+                            {/if}
+                            {if($i!=$page)}
+                            <li>
+                                <a href="/home.html?p={$i}">{$i}</a>
+                            </li>
+                            {/if}
+                        {/for}
+                    <li class="disabled">
+                        <span>..</span>
+                    </li>
+                    <li>
+                        <a href="/home.html?p={$lastpage-1}">{$lastpage-1}</a>
+                    </li>
+                    {/if}
+
+                    {if($page>6 and $lastpage-$page<=5)}
+                    <li>
+                        <a href="/home.html?p=2">2</a>
+                    </li>
+                    <li class="disabled">
+                        <span>..</span>
+                    </li>
+                        {for start="$lastpage-5" end="$lastpage"}
+                            {if($i==$page)}
+                            <li class="active">
+                                <span>{$page}</span>
+                            </li>
+                            {/if}
+                            {if($i!=$page)}
+                            <li>
+                                <a href="/home.html?p={$i}">{$i}</a>
+                            </li>
+                            {/if}
+                        {/for}
+                    {/if}
+
+                    {if($page>6 and $lastpage-$page>5)}
+                    <li>
+                        <a href="/home.html?p=2">2</a>
+                    </li>
+                    <li class="disabled">
+                        <span>..</span>
+                    </li>
+                        {for start="$page-2" end="$page+3"}
+                            {if($i==$page)}
+                            <li class="active">
+                                <span>{$page}</span>
+                            </li>
+                            {/if}
+                            {if($i!=$page)}
+                            <li>
+                                <a href="/home.html?p={$i}">{$i}</a>
+                            </li>
+                            {/if}
+                        {/for}
+                    <li class="disabled">
+                        <span>..</span>
+                    </li>
+                    <li>
+                        <a href="/home.html?p={$lastpage-1}">{$lastpage-1}</a>
+                    </li>
+                    {/if}
+
+                    {if($page==$lastpage)}
+                    <li class="active">
+                        <span>{$lastpage}</span>
+                    </li>
+
+                    <li class="disabled">
+                        <span>&raquo;</span>
+                    </li>
+                    {/if}
+                    {if($page!=$lastpage)}
+                    <li>
+                        <a href="/home.html?p={$lastpage}">{$lastpage}</a>
+                    </li>
+
+                    <li>
+                        <a href="/home.html?p={$lastpage}">&raquo;</a>
+                    </li>
+                    {/if}
+
+                </ul>
+                {/if}
+            </div>
+
         </div>
     </div>
 
@@ -222,4 +395,26 @@
         </div>
     </div>
 </body>
+<script>
+    $("#more").click(function () {
+        $(".nav-mobile").css("left",0);
+        setTimeout(function(){
+            $('.nav-mobile-main').css("left",0);
+            $(".nav-mobile-sub").css("left",0);
+        },250);
+
+    });
+
+    $("#close").click(function () {
+        $(".nav-mobile").css("left","-100%");
+        $(".nav-mobile-main").css("left","-100%");
+        $(".nav-mobile-sub").css("left","40%");
+        $(".nav-mobile-main li").first().addClass("now").siblings().removeClass("now");
+    })
+
+    $(".nav-mobile-main li").click(function () {
+        $(this).addClass("now").siblings().removeClass("now");
+        $(".nav-mobile-sub").css("left",-$(this).index()*100+"%");
+    })
+</script>
 </html>
