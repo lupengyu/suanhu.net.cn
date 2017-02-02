@@ -692,7 +692,7 @@ class Backstage extends Controller
             return $this->reject();
         }
 
-        $list = ClassesModel::where('id','>',0)->order('sign','desc')->paginate(1);
+        $list = ClassesModel::where('id','>',0)->order('sign','desc')->paginate(10);
         $page = $list->render();
         $this->assign('list',$list);
         $this->assign('page',$page);
