@@ -9,4 +9,8 @@ class User extends Model
     {
         return $this->hasMany('Sign');
     }
+    public function activitys()
+    {
+        return $this->hasMany('Activity');
+    }
 }

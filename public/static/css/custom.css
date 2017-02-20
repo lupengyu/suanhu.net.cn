@@ -303,7 +303,7 @@
     background-color: rgba(255, 0, 0, 0.3);
 }
 
-.nav a {
+.nav span {
     display: inline-block;
     position: relative;
     text-align: center;
@@ -365,7 +365,7 @@
         display: block;
     }
 
-    .nav a:hover > ul {
+    .nav span:hover > ul {
         opacity: 1;
         visibility: visible;
         margin: 0;

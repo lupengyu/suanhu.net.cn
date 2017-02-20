@@ -7,6 +7,7 @@ Route::pattern([ 'id'=>'\d+',
 
 Route::rule('sign/:id','index/Index/sign');
 Route::rule('backstage/classinformation/:id','index/Backstage/classinformation');
+Route::rule('backstage/gradeinformation/:id','index/Backstage/gradeinformation');
 Route::rule('backstage/studentinformation/:id','index/Backstage/studentinformation');
 Route::rule('backstage/activityinformation/:id','index/Backstage/activityinformation');
 Route::rule('backstage/success/:id','index/Backstage/successs');
@@ -18,6 +19,7 @@ Route::rule('backstage/banadmin/:id','index/Backstage/banadmin');
 Route::rule('backstage/signexcel/:id','index/Backstage/signexcel');
 Route::rule('backstage/classinfoexcel/:id','index/Backstage/classinfoexcel');
 Route::rule('backstage/studentinfoexcel/:id','index/Backstage/studentinfoexcel');
+Route::rule('backstage/gradeexcel/:id','index/Backstage/gradeexcel');
 
 return [
     '__pattern__' => [
@@ -29,6 +31,7 @@ return [
     ],
     'index'=>'index/index/index',
     'home'=>'index/index/home',
+    'user_home'=>'index/index/user_home',
     'home_people'=>'index/index/home_people',
     'register'=>'index/index/register',
     'userregister'=>'index/index/userregister',
@@ -36,10 +39,12 @@ return [
     'backstage/home' =>'index/backstage/home',
     'backstage/logout' =>'index/backstage/logout',
     'backstage/activity'=>'index/backstage/activity',
+    'backstage/grade'=>'index/backstage/grade',
     'backstage/class'=>'index/backstage/classs',
     'backstage/student'=>'index/backstage/student',
     'backstage/addactivity'=>'index/backstage/addactivity',
     'backstage/searchactivity'=>'index/backstage/searchactivity',
+    'backstage/searchgrade'=>'index/backstage/searchgrade',
     'backstage/searchclass'=>'index/backstage/searchclass',
     'backstage/searchstudent'=>'index/backstage/searchstudent',
     'backstage/gradeadmin'=>'index/backstage/gradeadmin',

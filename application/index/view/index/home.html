@@ -118,15 +118,16 @@
                     </span>
                 </div>
                 <div class="ten columns nav">
-                    <a>
-                        用户名
+                    <span>
+                        {$Request.session.user_name}
                         <ul>
-                            <li>个人中心</li>
-                            <li>活动管理</li>
+                            <li><a style="text-decoration:none" href="{:url('index/index/user_home')}">个人中心</a></li>
+                            {if($status>0)}
+                            <li><a style="text-decoration:none" href="{:url('index/backstage/index')}">后台管理</a></li>
+                            {/if}
                             <li>注销</li>
                         </ul>
-                    </a>
-
+                    </span>
                 </div>
             </div>
         </div>
@@ -207,12 +208,12 @@
                     <span>排序</span>
 
                     {if($type=='time')}
-                    <a href="{:url('index/index/home_people')}">按人气</a>
+                    <a style="text-decoration:none"  href="{:url('index/index/home_people')}">按人气</a>
                     <span>按时间</span>
                     {/if}
                     {if($type=='people')}
                     <span>按人气</span>
-                    <a href="{:url('index/index/home')}">按时间</a>
+                    <a style="text-decoration:none"  href="{:url('index/index/home')}">按时间</a>
                     {/if}
                 </div>
             </div>
@@ -246,13 +247,13 @@
                         </figcation>
                     </div>
                     <div class="a-buttons">
-                        <a class="submit" href="{:url('index/index/sign',['id'=>$item['id']])}">报名</a><a class="more" href="">详情</a>
+                        <a class="submit" style="text-decoration:none"  href="{:url('index/index/sign',['id'=>$item['id']])}">报名</a><a style="text-decoration:none"  class="more" href="">详情</a>
                     </div>
                 </div>
                 {/volist}
 
             </div>
-
+            {if($lastpage!=null)}
             <div style="margin: 0px auto;padding-left: 15px;">
                 {if($lastpage!=1)}
                 {if($type=='time')}
@@ -369,7 +370,7 @@
                 {/if}
                 {/if}
             </div>
-
+            {/if}
         </div>
     </div>
 

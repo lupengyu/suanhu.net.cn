@@ -12,12 +12,12 @@ use think\Session;
 use think\Route;
 use think\Image;
 use think\Request;
+use app\index\model\Grade as GradeModel;
 use app\index\model\User as UserModel;
 use app\index\model\Activity as ActivityModel;
 use app\index\model\Sign as SignModel;
 use app\index\model\Classes as ClassesModel;
 use app\index\model\Navigate as NavigateModel;
-use app\index\model\School as SchoolModel;
 use org\util\ArrayList;
 
 /**
@@ -26,7 +26,6 @@ use org\util\ArrayList;
  */
 class Index extends Controller
 {
-
     /**
      * 主页自动跳转认证界面
      *
@@ -147,13 +146,19 @@ class Index extends Controller
             return $this->suces('班级为一串数字编码！');
         }
         $class = ClassesModel::where('code',$user->class)->find();
-        if($class==null)
-        {
+        if($class==null) {
             $class = new ClassesModel();
             $class->code = $user->class;
             $class->school = $user->school;
             $class->grade = $user->grade;
             $class->save();
+        }
+        $grade = GradeModel::where('grade',$user->grade)->where('school',$user->grade)->find();
+        if($grade==null) {
+            $grade = new GradeModel();
+            $grade->school = $user->school;
+            $grade->grade = $user->grade;
+            $grade->save();
         }
         Session::set('user_name',$user->name);
         $user->save();
@@ -180,6 +185,13 @@ class Index extends Controller
         $school = $user->school;
         $grade = $user->grade;
 
+        if($user->status==2) {
+            $grade = 0;
+        } else if($user->status>3) {
+            $school = 0;
+            $grade = 0;
+        }
+
         $act = ActivityModel::where('status',1)->order('id','desc')->select();
         $list = array();
         for($i=0,$cnt = sizeof($act);$i<$cnt;$i++)
@@ -190,9 +202,9 @@ class Index extends Controller
             for($j=0;$j<sizeof($result);$j++)
             {
                 $navigate = $result[$j];
-                if($navigate->school==$school||$navigate->school==null)
+                if($navigate->school==$school||$navigate->school==null||$school==0)
                 {
-                    if($navigate->grade==$grade||$navigate->grade==null)
+                    if($navigate->grade==$grade||$navigate->grade==null||$grade==0)
                     {
                         array_push($list,$item);
                         break;
@@ -218,6 +230,7 @@ class Index extends Controller
         //dump($Page->totalPages);
         $page = $Page->show();
 
+        $this->assign('status',$user->status);
         $this->assign('list',$list);
         $this->assign('page',$Page->nowPage);
         $this->assign('lastpage',$Page->totalPages);
@@ -241,6 +254,13 @@ class Index extends Controller
         $school = $user->school;
         $grade = $user->grade;
 
+        if($user->status==2) {
+            $grade = 0;
+        } else if($user->status>3) {
+            $school = 0;
+            $grade = 0;
+        }
+
         $act = ActivityModel::where('status',1)->order('see','desc')->select();
         $list = array();
         for($i=0,$cnt = sizeof($act);$i<$cnt;$i++)
@@ -251,9 +271,9 @@ class Index extends Controller
             for($j=0;$j<sizeof($result);$j++)
             {
                 $navigate = $result[$j];
-                if($navigate->school==$school||$navigate->school==null)
+                if($navigate->school==$school||$navigate->school==null||$school==0)
                 {
-                    if($navigate->grade==$grade||$navigate->grade==null)
+                    if($navigate->grade==$grade||$navigate->grade==null||$grade==0)
                     {
                         array_push($list,$item);
                         break;
@@ -276,6 +296,7 @@ class Index extends Controller
         $list=array_slice($list,$Page->firstRow,$Page->listRows);
         $page = $Page->show();
 
+        $this->assign('status',$user->status);
         $this->assign('list',$list);
         $this->assign('page',$Page->nowPage);
         $this->assign('lastpage',$Page->totalPages);
@@ -313,6 +334,8 @@ class Index extends Controller
             $sign->class=$user->class;
             $sign->title=$act->title;
             $sign->body=$act->summary;
+            $sign->school = $user->school;
+            $sign->grade = $user->grade;
             $sign->save();
 
             $user->sign ++;
@@ -326,5 +349,28 @@ class Index extends Controller
 
             return $this->suces('报名成功');
         }
+    }
+
+    /**
+     * 个人主页
+     * @return mixed|void
+     */
+    public function user_home()
+    {
+        Session::start();
+        $id = Session::get('user_id');
+        $user = UserModel::where('code',$id)->find();
+        if($user==null)
+        {
+            return $this->redirect('index/index/index');
+        }
+
+        $list = SignModel::where('user_id',$user->id)->paginate(3);
+        $page = $list->render();
+
+        $this->assign('list',$list);
+        $this->assign('page',$page);
+        $this->assign('user',$user);
+        return $this->fetch('index/user_home');
     }
 }

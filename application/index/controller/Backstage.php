@@ -8,6 +8,7 @@ use think\Session;
 use think\Route;
 use think\Image;
 use think\Request;
+use app\index\model\Grade as GradeModel;
 use app\index\model\User as UserModel;
 use app\index\model\Activity as ActivityModel;
 use app\index\model\Sign as SignModel;
@@ -438,6 +439,9 @@ class Backstage extends Controller
         }
 
         $act = ActivityModel::get($id);
+        if($act==null) {
+            return $this->suces('查无此活动');
+        }
         /**
          *
 
@@ -565,7 +569,10 @@ class Backstage extends Controller
         }
 
         $act = ActivityModel::get($id);
-        if($act->user_id!=$user->id)
+        if($act==null) {
+            return $this->suces('查无此活动');
+        }
+        if($act->user_id!=$user->id&&$user->status<=$act->user->status)
         {
             $this->adddiary('尝试操作id为 '.$id.' 标题为 '.$act->title.' 的活动。');
             return $this->suces('你无权操作该活动');
@@ -641,7 +648,10 @@ class Backstage extends Controller
         }
 
         $act = ActivityModel::get($id);
-        if($act->user_id!=$user->id)
+        if($act==null) {
+            return $this->suces('查无此活动');
+        }
+        if($act->user_id!=$user->id&&$user->status<=$act->user->status)
         {
             $this->adddiary('尝试操作id为 '.$id.' 标题为 '.$act->title.' 的活动。');
             return $this->suces('你无权操作该活动');
@@ -667,7 +677,10 @@ class Backstage extends Controller
         }
 
         $act = ActivityModel::get($id);
-        if($act->user_id!=$user->id)
+        if($act==null) {
+            return $this->suces('查无此活动');
+        }
+        if($act->user_id!=$user->id&&$user->status<=$act->user->status)
         {
             $this->adddiary('尝试操作id为 '.$id.' 标题为 '.$act->title.' 的活动。');
             return $this->suces('你无权操作该活动');
@@ -676,6 +689,82 @@ class Backstage extends Controller
         $act->save();
         $this->adddiary('恢复了一条活动信息，标题为 '.$act->title.'。');
         return $this->suces('活动已恢复');
+    }
+
+    /**
+     * 年级界面渲染
+     * @return mixed|void
+     */
+    public function grade()
+    {
+        Session::start();
+        //include('_cas.php');
+        $user = $this->judge();
+        if($user==false)
+        {
+            return $this->reject();
+        }
+
+        $list = GradeModel::where('id','>',0)->order('id','desc')->paginate(10);
+        $page = $list->render();
+        $this->assign('list',$list);
+        $this->assign('page',$page);
+        $this->assign('search',false);
+        return $this->fetch('backstage/grade');
+    }
+
+    /**
+     * 年级高级检索
+     * @return mixed|void
+     */
+    public function searchgrade()
+    {
+        Session::start();
+        //include('_cas.php');
+        $user = $this->judge();
+        if($user==false)
+        {
+            return $this->reject();
+        }
+
+        $school = input('post.school');
+        if($school == 0) {
+            $list = GradeModel::where('id','>',0)->order('id','desc')->paginate(10);
+        } else {
+            $list = GradeModel::where('school',$school)->order('id','desc')->paginate(10);
+        }
+
+        $page = $list->render();
+        $this->assign('list',$list);
+        $this->assign('page',$page);
+        $this->assign('search',true);
+        return $this->fetch('backstage/grade');
+    }
+
+    /**
+     * 年级详细信息
+     * @param string $id
+     */
+    public function gradeinformation($id='')
+    {
+        Session::start();
+        //include('_cas.php');
+        $user = $this->judge();
+        if($user==false)
+        {
+            return $this->reject();
+        }
+
+        $grade = GradeModel::get($id);
+        if($grade==null) {
+            return $this->suces('查无此年级');
+        }
+        $list = ClassesModel::where('school',$grade->school)->where('grade',$grade->grade)->order('sign','desc')->paginate(10);
+        $this->assign('list',$list);
+        $this->assign('code', $user->name);
+        $this->assign('page', $list->render());
+        $this->assign('grade',$grade);
+        return $this->fetch('backstage/gradeinformation');
     }
 
     /**
@@ -799,10 +888,10 @@ class Backstage extends Controller
         }
 
         $class = ClassesModel::where('code',$id)->find();
-        //dump($class);
+        if($class==null) {
+            return $this->suces('查无此班级');
+        }
         $list=UserModel::where('class',$id)->order('sign','desc')->paginate(10);
-        $array = UserModel::where('class',$id)->order('sign','desc')->paginate();
-        Session::set('classinfoarray',$array);
         $page = $list->render();
         $this->assign('class',$class);
         $this->assign('list',$list);
@@ -910,10 +999,11 @@ class Backstage extends Controller
         }
 
         $user=UserModel::get($id);
+        if($user==null) {
+            return $this->suces('查无此学生');
+        }
         $list=SignModel::where('user_id',$id)->order('id','desc')->paginate(10);
-        $array = SignModel::where('user_id',$id)->order('id','desc')->paginate();
         $page = $list->render();
-        Session::set('studentinfoarray',$array);
         $this->assign('list',$list);
         $this->assign('page', $page);
         $this->assign('code', $user->name);
@@ -1101,7 +1191,7 @@ class Backstage extends Controller
             $this->assign('status',2);
             $this->assign('type','院负责人管理');
         }
-        else
+        else if($id==3)
         {
             Session::start();
             //include('_cas.php');
@@ -1120,7 +1210,9 @@ class Backstage extends Controller
             $this->assign('status',3);
             $this->assign('type','校负责人管理');
         }
-
+        else {
+            return $this->suces('无效的输入信息');
+        }
         $this->assign('userstatus',$user->status);
         $this->assign('school',$user->school);
         $this->assign('search',true);
@@ -1147,6 +1239,7 @@ class Backstage extends Controller
             $name = input('post.name');
             $school = input('post.school');
             $grade = input('post.grade');
+            $type = input('post.body');
             if($name==null)
             {
                 return $this->suces('姓名为必填');
@@ -1155,13 +1248,16 @@ class Backstage extends Controller
             {
                 return $this->suces('学号/工号为必填');
             }
-            if($school==null)
+            if($school==0)
             {
                 return $this->suces('学院为必填');
             }
-            if($grade==null)
+            if($grade==0)
             {
                 return $this->suces('年级为必填');
+            }
+            if($type==null) {
+                return $this->suces('身份为必填');
             }
 
             $add_status = $user->status;
@@ -1176,7 +1272,7 @@ class Backstage extends Controller
                 $user->status = $id;
                 $user->save();
             }
-            else if($name!=$user->name||$school!=$user->school||$grade!=$user->grade)
+            else if($name!=$user->name)
             {
                 return $this->suces('信息错误');
             }
@@ -1187,6 +1283,11 @@ class Backstage extends Controller
             else
             {
                 $user->status = $id;
+                $user->school = $school;
+                $user->grade = $grade;
+                if($type==0) {
+                    $user->class = 0;
+                }
                 $user->save();
             }
             $this->adddiary('设置学号/工号为 '.$user->code.' 的用户为级管理员。');
@@ -1204,6 +1305,7 @@ class Backstage extends Controller
             $code = input('post.code');
             $name = input('post.name');
             $school = input('post.school');
+            $type = input('post.body');
             if($name==null)
             {
                 return $this->suces('姓名为必填');
@@ -1212,9 +1314,12 @@ class Backstage extends Controller
             {
                 return $this->suces('学号/工号为必填');
             }
-            if($school==null)
+            if($school==0)
             {
                 return $this->suces('学院为必填');
+            }
+            if($type==null) {
+                return $this->suces('身份为必填');
             }
 
             $add_status = $user->status;
@@ -1228,7 +1333,7 @@ class Backstage extends Controller
                 $user->status = $id;
                 $user->save();
             }
-            else if($name!=$user->name||$school!=$user->school)
+            else if($name!=$user->name)
             {
                 return $this->suces('信息错误');
             }
@@ -1239,11 +1344,15 @@ class Backstage extends Controller
             else
             {
                 $user->status = $id;
+                $user->school = $school;
+                if($type==0) {
+                    $user->class = 0;
+                }
                 $user->save();
             }
             $this->adddiary('设置学号/工号为 '.$user->code.' 的用户为院管理员。');
         }
-        else
+        else if($id==3)
         {
             Session::start();
             //include('_cas.php');
@@ -1255,6 +1364,7 @@ class Backstage extends Controller
 
             $code = input('post.code');
             $name = input('post.name');
+            $type = input('post.body');
             if($name==null)
             {
                 return $this->suces('姓名为必填');
@@ -1262,6 +1372,9 @@ class Backstage extends Controller
             if($code==null)
             {
                 return $this->suces('学号/工号为必填');
+            }
+            if($type==null) {
+                return $this->suces('身份为必填');
             }
 
             $add_status = $user->status;
@@ -1286,9 +1399,15 @@ class Backstage extends Controller
             else
             {
                 $user->status = $id;
+                if($type==0) {
+                    $user->class = 0;
+                }
                 $user->save();
             }
             $this->adddiary('设置学号/工号为 '.$user->code.' 的用户为校管理员。');
+        }
+        else {
+            return $this->suces('无效的输入信息');
         }
         return $this->suces('添加成功');
     }
@@ -1302,6 +1421,9 @@ class Backstage extends Controller
         Session::start();
         //include('_cas.php');
         $admin = UserModel::get($id);
+        if($admin==null) {
+            return $this->suces('查无此负责人');
+        }
         $user = $this->judge($admin->status);
         if($user==false)
         {
@@ -1432,6 +1554,9 @@ class Backstage extends Controller
         }
 
         $act = ActivityModel::get($id);
+        if($act==null) {
+            return $this->suces('查无此活动');
+        }
         $array1 = Session::get('signarray');
         $array2 = Session::get('signarray_success');
         vendor('PHPExcel.PHPExcel');
@@ -1656,7 +1781,7 @@ class Backstage extends Controller
     }
 
     /**
-     * 将指定活动的详细信息导出至excel
+     * 将指定班级的详细信息导出至excel
      * @param string $id
      */
     public function classinfoexcel($id='')
@@ -1670,7 +1795,10 @@ class Backstage extends Controller
         }
 
         $class = ClassesModel::get($id);
-        $array = Session::get('classinfoarray');
+        if($class==null) {
+            return $this->suces('查无此班级');
+        }
+        $array = UserModel::where('class',$class->code)->order('sign','desc')->paginate();
 
         vendor('PHPExcel.PHPExcel');
         $objPHPExcel = new \PHPExcel();
@@ -1847,7 +1975,10 @@ class Backstage extends Controller
         }
 
         $user = UserModel::get($id);
-        $array = Session::get('studentinfoarray');
+        if($user==null) {
+            return $this->suces('查无此学生');
+        }
+        $array = SignModel::where('user_id',$id)->order('id','desc')->paginate();
 
         vendor('PHPExcel.PHPExcel');
         $objPHPExcel = new \PHPExcel();
@@ -1957,6 +2088,124 @@ class Backstage extends Controller
         header("Content-Type:application/octet-stream");
         header("Content-Type:application/download");
         header('Content-Disposition:attachment;filename="学生'.$user->name.'.xls"');
+        header("Content-Transfer-Encoding:binary");
+        $write->save('php://output');
+    }
+
+    /**
+     * 将指定年级的详细信息导出至excel
+     * @param string $id
+     */
+    public function gradeexcel($id='')
+    {
+        Session::start();
+        //include('_cas.php');
+        $user = $this->judge();
+        if($user==false)
+        {
+            return $this->reject();
+        }
+
+        $grade = GradeModel::get($id);
+        if($grade == null) {
+            return $this->suces('查无此年级');
+        }
+        $start_time = date("Y-m-d H:i:s",strtotime(input('post.start_time')));
+        $end_time = date("Y-m-d H:i:s",strtotime(input('post.end_time')));
+        if($start_time == null) {
+            return $this->suces('开始时间为空');
+        }
+        if($end_time == null) {
+            return $this->suces('截止时间为空');
+        }
+        if($start_time >= $end_time) {
+            return $this->suces('截止时间应晚于开始时间');
+        }
+
+/*        $sign_list = SignModel::where('school',$grade->school)->where('grade',$grade->grade)->paginate()->toArray();
+        $data = array();
+        dump(sizeof($sign_list['data']));
+        for($i = 0, $cnt = sizeof($sign_list['data']); $i < $cnt;$i++) {
+            $sign = $sign_list['data'][$i];
+            if($sign['time'] > $start_time && $sign['time'] < $end_time) {
+                array_push($data, $sign);
+            }
+        }*/
+
+        $user_list = UserModel::where('school',$grade->school)->where('grade',$grade->grade)->where('class','>',0)->order('code','asc')->paginate();
+        //$class_list = ClassesModel::where('school',$grade->school)->where('grade',$grade->grade)->order('code','asc')->paginate();
+
+        vendor('PHPExcel.PHPExcel');
+        $objPHPExcel = new \PHPExcel();
+
+        $objPHPExcel->getProperties()->setCreator('卢鹏宇')
+            ->setTitle('年级信息');
+
+        $write = new \PHPExcel_Writer_Excel5($objPHPExcel);
+
+        $objPHPExcel->setActiveSheetIndex(0);
+        $objPHPExcel->getActiveSheet()->setTitle('学生信息汇总');
+
+        $objPHPExcel->getActiveSheet()->setCellValue('A1', '姓名');
+        $objPHPExcel->getActiveSheet()->setCellValue('B1', '学号');
+        $objPHPExcel->getActiveSheet()->setCellValue('C1', '班级');
+        $objPHPExcel->getActiveSheet()->setCellValue('D1', '报名项目');
+        $objPHPExcel->getActiveSheet()->setCellValue('E1', '报名总数');
+
+        dump(sizeof($user_list));
+        for($i=0,$cnt = sizeof($user_list);$i<$cnt;$i++)
+        {
+            $user = $user_list[$i];
+            $sum = $i + 2;
+            $objPHPExcel->getActiveSheet()->setCellValue('A'.$sum,  $user->name);
+            $objPHPExcel->getActiveSheet()->getStyle('A'.$sum)->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
+            $objPHPExcel->getActiveSheet()->getStyle('A'.$sum)->getAlignment()->setVertical(\PHPExcel_Style_Alignment::VERTICAL_CENTER);
+            $objPHPExcel->getActiveSheet()->setCellValue('B'.$sum,  $user->code);
+            $objPHPExcel->getActiveSheet()->getStyle('B'.$sum)->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
+            $objPHPExcel->getActiveSheet()->getStyle('B'.$sum)->getAlignment()->setVertical(\PHPExcel_Style_Alignment::VERTICAL_CENTER);
+            $objPHPExcel->getActiveSheet()->setCellValue('C'.$sum,  $user->class);
+            $objPHPExcel->getActiveSheet()->getStyle('C'.$sum)->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
+            $objPHPExcel->getActiveSheet()->getStyle('C'.$sum)->getAlignment()->setVertical(\PHPExcel_Style_Alignment::VERTICAL_CENTER);
+
+            $signs = $user->signs;
+            $data = array();
+            for($i = 0, $cnt1 = sizeof($signs); $i < $cnt1;$i++) {
+                $sign = $signs[$i];
+                if($sign['time'] > $start_time && $sign['time'] < $end_time) {
+                    array_push($data, $sign);
+                }
+            }
+            $String = "";
+            for($i=0,$cnt2=sizeof($data);$i<$cnt2;$i++) {
+                $judge = $i + 1;
+                if($i!=$cnt2-1) {
+                    $String = $String.$judge.". ".$data[$i]['title']."\n";
+                } else {
+                    $String = $String.$judge.". ".$data[$i]['title'];
+                }
+            }
+            $objPHPExcel->getActiveSheet()->setCellValue('D'.$sum,  $String);
+            $objPHPExcel->getActiveSheet()->getStyle('D'.$sum)->getAlignment()->setWrapText(true);
+            $objPHPExcel->getActiveSheet()->getStyle('D'.$sum)->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
+            $objPHPExcel->getActiveSheet()->setCellValue('E'.$sum,  $cnt2);
+            $objPHPExcel->getActiveSheet()->getStyle('E'.$sum)->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
+            $objPHPExcel->getActiveSheet()->getStyle('E'.$sum)->getAlignment()->setVertical(\PHPExcel_Style_Alignment::VERTICAL_CENTER);
+        }
+
+        $objPHPExcel->getActiveSheet()->getColumnDimension('A')->setWidth(15);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('B')->setWidth(20);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('C')->setWidth(20);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('D')->setWidth(60);
+
+        ob_end_clean();
+        header("Pragma: public");
+        header("Expires: 0");
+        header("Cache-Control:must-revalidate, post-check=0, pre-check=0");
+        header("Content-Type:application/force-download");
+        header("Content-Type:application/vnd.ms-execl");
+        header("Content-Type:application/octet-stream");
+        header("Content-Type:application/download");
+        header('Content-Disposition:attachment;filename="年级报表.xls"');
         header("Content-Transfer-Encoding:binary");
         $write->save('php://output');
     }

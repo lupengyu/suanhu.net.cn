@@ -65,6 +65,9 @@
                     <a href="#"><i class="fa fa-sitemap"></i> 总体信息<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li>
+                            <a href="{:url('index/backstage/grade')}">年级总体信息</a>
+                        </li>
+                        <li>
                             <a href="{:url('index/backstage/classs')}">班级总体信息</a>
                         </li>
                         <li>
@@ -457,7 +460,7 @@
                                         {/if}
                                         <td style="width: 15%;">{$list.time}</td>
                                         <td style="width: 15%">
-                                            {if($list.user_id==$Think.session.id)}
+                                            {if(($list.user_id==$Think.session.id)||($Think.session.id>$list.user.status))}
                                             {if($list.status==1)}
                                             <a href="javascript:if(confirm('活动截止将会结束报名并生成活动人员，此操作不可逆'))location='{:url('index/backstage/successs',['id'=>$list['id']])}'"><button type="button" class="btn btn-info">活动截止</button></a>
                                             <a href="javascript:if(confirm('活动中止将暂停活动报名，可以在随后恢复'))location='{:url('index/backstage/ban',['id'=>$list['id']])}'"><button type="button" class="btn btn-danger">活动中止</button></a>
