@@ -13,4 +13,8 @@ class Activity extends Model
     {
         return $this->hasMany('Navigate');
     }
+    public function user()
+    {
+        return $this->belongsTo('User');
+    }
 }

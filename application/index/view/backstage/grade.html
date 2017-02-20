@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta content="" name="description" />
     <meta content="webthemez" name="author" />
-    <title>班级总体信息</title>
+    <title>年级总体信息</title>
     <!-- Bootstrap Styles-->
     <link href="/static/assets/css/bootstrap.css" rel="stylesheet" />
     <!-- FontAwesome Styles-->
@@ -57,7 +57,8 @@
         <div class="sidebar-collapse">
             <ul class="nav" id="main-menu">
 
-                <li><a href="{:url('index/backstage/home')}"><i class="fa fa-dashboard"></i> 控制台</a></li>
+                <li><a href="{:url('index/backstage/home')}"><i
+                        class="fa fa-dashboard"></i> 控制台</a></li>
 
                 <li><a href="{:url('index/backstage/activity')}"><i class="fa fa-qrcode"></i> 活动管理</a></li>
 
@@ -65,10 +66,10 @@
                     <a href="#"><i class="fa fa-sitemap"></i> 总体信息<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li>
-                            <a href="{:url('index/backstage/grade')}">年级总体信息</a>
+                            <a class="active-menu" href="{:url('index/backstage/grade')}">年级总体信息</a>
                         </li>
                         <li>
-                            <a class="active-menu" href="{:url('index/backstage/classs')}">班级总体信息</a>
+                            <a href="{:url('index/backstage/classs')}">班级总体信息</a>
                         </li>
                         <li>
                             <a href="{:url('index/backstage/student')}">学生总体信息</a>
@@ -102,6 +103,7 @@
                 {if($Think.session.user_status>=4)}
                 <li><a href="{:url('index/backstage/diary')}"><i class="fa fa-desktop"></i> 操作日志</a></li>
                 {/if}
+
             </ul>
 
         </div>
@@ -111,10 +113,10 @@
 
     <div id="page-wrapper">
         <div class="header">
-            <h1 class="page-header">班级总体信息<small>Welcome {$Request.session.user_name}</small></h1>
+            <h1 class="page-header">年级总体信息<small>Welcome {$Request.session.user_name}</small></h1>
             <ol class="breadcrumb">
                 <li class=""><a href="{:url('index/backstage/index')}"> 控制台</a></li>
-                <li class="active"> 班级总体信息</li>
+                <li class="active"> 年级总体信息</li>
             </ol>
 
         </div>
@@ -137,11 +139,7 @@
                                 <div class="modal-body">
                                     <div class="row">
                                         <div class="col-md-8 col-md-offset-2">
-                                            <form role="form" method="post" enctype="multipart/form-data" action="{:url('index/backstage/searchclass')}">
-                                                <div class="form-group">
-                                                    <label>班号</label>
-                                                    <input type="text" name="code" value="" class="form-control" maxlength="28">
-                                                </div>
+                                            <form role="form" method="post" enctype="multipart/form-data" action="{:url('index/backstage/searchgrade')}">
 
                                                 <div class="form-group">
                                                     <label>学院</label>
@@ -150,17 +148,6 @@
                                                         <option value="0">所有学院</option>
                                                         <option value="1">航空学院</option>
                                                         <option value="14">软件与微电子学院</option>
-                                                    </select>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>年级</label>
-                                                    <select class="form-control" name = "grade">
-                                                        <option value="0"> </option>
-                                                        <option value="0">所有年级</option>
-                                                        <option value="2016">2016级</option>
-                                                        <option value="2015">2015级</option>
-                                                        <option value="2015">2014级</option>
-                                                        <option value="2015">2013级</option>
                                                     </select>
                                                 </div>
 
@@ -180,59 +167,48 @@
 
                     <div class="panel panel-default">
                         <div class="panel-heading" style="min-height: 0">
+                            {if($search==false)}
+                            年级列表
+                            {/if}
                             {if($search==true)}
                             搜索结果
                             {/if}
-                            {if($search==false)}
-                            班级列表
-                            {/if}
-                            </div>
-                        {if($search==true)}
-                        <div style="padding-left: 15px;"><a href="{:url('index/backstage/classexcel')}"><button type="button" class="btn btn-success">导出至excel</button></a></div>
-                        {/if}
+                        </div>
                         <div class="panel-body">
                             <div class="table-responsive">
                                 <table class="table table-striped table-bordered table-hover">
                                     <thead>
 
                                     <tr>
-                                        <th style="width: 10%">班号</th>
-                                        <th style="width: 30%">学院</th>
-                                        <th style="width: 30%">年级</th>
-                                        <th style="width: 15%">活动报名人次</th>
-                                        <th style="width: 15%">活动选中人次</th>
-
+                                        <th style="width: 10%">学院-年级</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     {volist name="list" id="list" }
                                     <tr>
-                                        <td style="width: 10%"><a
-                                                {if($search==true)}
-                                                target="_blank"
-                                                {/if}
-                                                href="{:url('index/backstage/classinformation',['id'=>$list.code])}">{$list.code}</a></td>
-                                        <td style="width: 30%;">
+                                        <td style="width: 10%">
+                                            <a
+                                                    {if($search==true)}
+                                                    target="_blank"
+                                                    {/if}
+                                            href="{:url('index/backstage/gradeinformation',['id'=>$list.id])}">
                                             {if($list.school==1)}
                                             航空学院
                                             {/if}
                                             {if($list.school==14)}
                                             软件与微电子学院
                                             {/if}
+                                            {$list.grade}级
+                                            </a>
                                         </td>
-                                        <td style="width: 30%;">{$list.grade}级</td>
-                                        <td style="width: 15%;">{$list.sign}</td>
-                                        <td style="width: 15%; color: green;">{$list.success}</td>
                                     </tr>
                                     {/volist}
                                     </tbody>
                                 </table>
                                 {$page}
-
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
 

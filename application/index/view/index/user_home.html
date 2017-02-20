@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>个人中心</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="/static/user_home/css/normalize.css">
+    <link rel="stylesheet" type="text/css" href="/static/user_home/css/skeleton.css">
+    <link rel="stylesheet" type="text/css" href="/static/user_home/css/custom.css">
+    <script src="/static/user_home/js/jquery.js"></script>
+    <script src="/static/user_home/js/index.js"></script>
+    <style type="text/css">
+        .pagination {
+            display: inline-block;
+            padding-left: 0;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        .pagination > li {
+            display: inline;
+        }
+        .pagination > li > a,
+        .pagination > li > span {
+            position: relative;
+            float: left;
+            padding: 6px 12px;
+            margin-left: -1px;
+            line-height: 1.42857143;
+            color: #337ab7;
+            text-decoration: none;
+            background-color: #fff;
+            border: 1px solid #ddd;
+        }
+        .pagination > li:first-child > a,
+        .pagination > li:first-child > span {
+            margin-left: 0;
+            border-top-left-radius: 4px;
+            border-bottom-left-radius: 4px;
+        }
+        .pagination > li:last-child > a,
+        .pagination > li:last-child > span {
+            border-top-right-radius: 4px;
+            border-bottom-right-radius: 4px;
+        }
+        .pagination > li > a:hover,
+        .pagination > li > span:hover,
+        .pagination > li > a:focus,
+        .pagination > li > span:focus {
+            color: #23527c;
+            background-color: #eee;
+            border-color: #ddd;
+        }
+        .pagination > .active > a,
+        .pagination > .active > span,
+        .pagination > .active > a:hover,
+        .pagination > .active > span:hover,
+        .pagination > .active > a:focus,
+        .pagination > .active > span:focus {
+            z-index: 2;
+            color: #fff;
+            cursor: default;
+            background-color: #337ab7;
+            border-color: #337ab7;
+        }
+        .pagination > .disabled > span,
+        .pagination > .disabled > span:hover,
+        .pagination > .disabled > span:focus,
+        .pagination > .disabled > a,
+        .pagination > .disabled > a:hover,
+        .pagination > .disabled > a:focus {
+            color: #777;
+            cursor: not-allowed;
+            background-color: #fff;
+            border-color: #ddd;
+        }
+        .pagination-lg > li > a,
+        .pagination-lg > li > span {
+            padding: 10px 16px;
+            font-size: 18px;
+        }
+        .pagination-lg > li:first-child > a,
+        .pagination-lg > li:first-child > span {
+            border-top-left-radius: 6px;
+            border-bottom-left-radius: 6px;
+        }
+        .pagination-lg > li:last-child > a,
+        .pagination-lg > li:last-child > span {
+            border-top-right-radius: 6px;
+            border-bottom-right-radius: 6px;
+        }
+        .pagination-sm > li > a,
+        .pagination-sm > li > span {
+            padding: 5px 10px;
+            font-size: 12px;
+        }
+        .pagination-sm > li:first-child > a,
+        .pagination-sm > li:first-child > span {
+            border-top-left-radius: 3px;
+            border-bottom-left-radius: 3px;
+        }
+        .pagination-sm > li:last-child > a,
+        .pagination-sm > li:last-child > span {
+            border-top-right-radius: 3px;
+            border-bottom-right-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+
+<!-- topbar section -->
+<div class="section topbar">
+    <div class="container">
+        <!-- logo -->
+        <div class="row">
+            <div class="two columns" id="logo-black">
+                <img src="/static/user_home/img/logo.PNG">
+                <span id="more">
+                        <img src="/static/user_home/img/menu.png">
+                </span>
+            </div>
+            <div class="ten columns nav">
+                <a>
+                    {$Request.session.user_name}
+                    <span>
+                        {$Request.session.user_name}
+                        <ul>
+                            <li><a style="text-decoration:none" href="{:url('index/index/user_home')}">个人中心</a></li>
+                            <li>注销</li>
+                        </ul>
+                    </span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="section header">
+    <div class="container">
+        <div class="row">
+            <div class="three columns title">
+                <h2>个人主页</h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="section main">
+    <div class="container">
+        <div class="row">
+            <div class="six columns">
+                <h3>{$Request.session.user_name}</h3>
+            </div>
+            <div class="six columns" style="text-align: right">
+                <p>这里以后可能有东西</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- activities section -->
+<div class="section activities main">
+    <div class="container">
+        <div class="row">
+            <h6>已参加的活动</h6>
+        </div>
+        <div class="row">
+            {volist name="list" id="item" }
+            <div class="four columns activity">
+                <div class="a-title">
+                    <span>{$item.activity.title}</span>
+                    <span id="num">状态：
+                        {if($item.status==0)}
+                        已报名
+                        {/if}
+                        {if($item.status==-1)}
+                        未选中
+                        {/if}
+                        {if($item.status==1)}
+                        已选中
+                        {/if}
+                    </span>
+                </div>
+                <div class="a-img">
+                    {if($item.activity.photo==null)}
+                    <img src="static/img/a-1.jpg">
+                    {/if}
+                    {if($item.activity.photo!=null)}
+                    <img src="uploads/{$item.photo}">
+                    {/if}
+                    <figcation class="img-tips">
+                        <h4>{$item.activity.summary}</h4>
+                    </figcation>
+                </div>
+            </div>
+            {/volist}
+        </div>
+        {$page}
+    </div>
+</div>
+
+<!-- ending -->
+<div class="section ending">
+    <div class="container">
+        <div class="row">
+            <span>软微 © 2016 保留所有权利 象征写写</span>
+            <div id="country">
+                <img src="/static/user_home/img/china-1.png">
+                <span>中国</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- nav-mobile section -->
+<div class="nav-mobile">
+    <span id="close">X</span>
+    <!-- 主选项卡 -->
+    <ul class="nav-mobile-main">
+        <li class="now">个人中心</li>
+        <li>后台管理</li>
+    </ul>
+    <!-- 子选项卡 -->
+    <div class="nav-mobile-sub">
+        <ul>
+            <li>个人资料</li>
+            <li>注销</li>
+        </ul>
+        <ul>
+            <li>活动管理</li>
+            <li>XX管理</li>
+        </ul>
+    </div>
+</div>
+
+
+
+</body>
+
+<script>
+    $("#more").click(function () {
+        $(".nav-mobile").css("left",0);
+        setTimeout(function(){
+            $('.nav-mobile-main').css("left",0);
+            $(".nav-mobile-sub").css("left",0);
+        },250);
+
+    });
+
+    $("#close").click(function () {
+        $(".nav-mobile").css("left","-100%");
+        $(".nav-mobile-main").css("left","-100%");
+        $(".nav-mobile-sub").css("left","40%");
+        $(".nav-mobile-main li").first().addClass("now").siblings().removeClass("now");
+    })
+
+    $(".nav-mobile-main li").click(function () {
+        $(this).addClass("now").siblings().removeClass("now");
+        $(".nav-mobile-sub").css("left",-$(this).index()*100+"%");
+    })
+</script>
+
+</html>
+
+<!--#00BCD4-->

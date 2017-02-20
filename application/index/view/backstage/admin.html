@@ -73,9 +73,13 @@
 
                 <li>
                     <a href="#"><i class="fa fa-sitemap"></i> 总体信息<span class="fa arrow"></span></a>
-                    <ul class="nav nav-second-level">                        <li>
-                        <a href="{:url('index/backstage/classs')}">班级总体信息</a>
-                    </li>
+                    <ul class="nav nav-second-level">
+                        <li>
+                            <a href="{:url('index/backstage/grade')}">年级总体信息</a>
+                        </li>
+                        <li>
+                            <a href="{:url('index/backstage/classs')}">班级总体信息</a>
+                        </li>
                         <li>
                             <a href="{:url('index/backstage/student')}">学生总体信息</a>
                         </li>
@@ -237,7 +241,6 @@
                                                     <label>学院</label><small style="color: red"> *</small>
                                                     <select class="form-control" name = "school">
                                                         <option value="0"> </option>
-                                                        <option value="0">所有学院</option>
                                                         <option value="1">航空学院</option>
                                                         <option value="14">软件与微电子学院</option>
                                                     </select>
@@ -256,7 +259,6 @@
                                                     {if($userstatus>=3)}
                                                     <select class="form-control" name = "school">
                                                         <option value="0"> </option>
-                                                        <option value="0">所有学院</option>
                                                         <option value="1">航空学院</option>
                                                         <option value="14">软件与微电子学院</option>
                                                     </select>
@@ -268,7 +270,6 @@
                                                     <label>年级</label><small style="color: red"> *</small>
                                                     <select class="form-control" name = "grade">
                                                         <option value="0"> </option>
-                                                        <option value="0">所有年级</option>
                                                         <option value="2016">2016级</option>
                                                         <option value="2015">2015级</option>
                                                         <option value="2015">2014级</option>
@@ -277,6 +278,17 @@
                                                 </div>
                                                 {/if}
                                                 <label></label>
+                                                <label>身份</label><small style="color: red"> *</small>
+                                                <div class="checkbox c-checkbox">
+                                                    <label>
+                                                        <input type="radio" name="body" value="0" checked>
+                                                        教职工</label>
+                                                </div>
+                                                <div class="checkbox c-checkbox">
+                                                    <label>
+                                                        <input type="radio" name="body" value="1">
+                                                        学生</label>
+                                                </div>
                                                 <input type="hidden" name="__token__" value="{$Request.token}" />
                                                 <input type="submit" id="submit1" class="btn btn-success" value=" 添加 " style="width: 100%">
                                             </form>
