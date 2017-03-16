@@ -9,7 +9,6 @@
     <link rel="stylesheet" type="text/css" href="/static/register/css/custom.css">
     <script src="/static/js/jquery-1.11.1.js"></script>
 
-    <script src="/static/register/js/index.js"></script>
     <meta http-equiv="X-UA-Compatible" content="IE=10">
 </head>
 <body>
@@ -19,23 +18,38 @@
             <h3 style="text-align: center;padding-top: 20px;">完善你的个人信息</h3>
             <form class="form-style" role="form" method="post" enctype="multipart/form-data" action="{:url('index/index/userregister')}">
                 <ul>
-                    <li>
-                        <label for="name">Name</label>
-                        <input type="text" name="name" maxlength="10" value="{$Think.session.name}">
-                        <span>请输入你的姓名</span>
-                    </li>
                     <li id="school">
-                        <label for="school">School</label>
+                        <label for="school">College</label>
                         <select name="school" onchange="shcoolcheck(this)">
                             <option value="">请选择</option>
                             <option value="1">航空学院</option>
+                            <option value="2">航天学院</option>
+                            <option value="3">航海学院</option>
+                            <option value="4">材料学院</option>
+                            <option value="5">机电学院</option>
+                            <option value="6">力学与土木建筑学院</option>
+                            <option value="7">动力与能源学院</option>
+                            <option value="8">电子信息学院</option>
+                            <option value="9">自动化学院</option>
+                            <option value="10">计算机学院</option>
+                            <option value="11">理学院</option>
+                            <option value="12">管理学院</option>
+                            <option value="13">人文与经法学院</option>
                             <option value="14">软件与微电子学院</option>
+                            <option value="15">生命学院</option>
+                            <option value="16">外国语学院</option>
+                            <option value="17">教育实验学院</option>
+                            <option value="18">国际教育学院</option>
+                            <option value="19">马克思主义学院</option>
+                            <option value="20">西北工业大学伦敦玛丽女王大学工程学院</option>
+                            <option value="21">人才特区</option>
+                            <option value="22">其他</option>
                         </select>
                         <span>选择你的学院</span>
                     </li>
                     <li id="grade">
                         <label for="grade">Grade</label>
-                        <select name="grade" onchange="gradecheck(this)">
+                        <select name="grade">
                             <option value="">请选择</option>
                             <option value="2013">2013级</option>
                             <option value="2014">2014级</option>

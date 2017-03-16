@@ -85,16 +85,14 @@ class Backstage extends Controller
     public function index()
     {
         Session::start();
-        //include('_cas.php');
-        Session::set('user_id',2015303135);
+        include ('sso/login.php');
+        $login_user = Session::get('loginUser');
+        Session::set('user_id', $login_user['account']);
         $user = $this->judge();
         if($user==false)
         {
             return $this->reject();
         }
-        //$status = $user->status;
-        //Session::set('id',$user->id);
-        //Session::set('user_status',$status);
 
         return $this->redirect('index/backstage/home');
     }
@@ -107,7 +105,6 @@ class Backstage extends Controller
     public function home()
     {
         Session::start();
-        //include('_cas.php');
         $user = $this->judge();
         if($user==false)
         {
@@ -137,15 +134,8 @@ class Backstage extends Controller
     public function logout()
     {
         Session::start();
-        //include('_cas.php');
-        $user = $this->judge();
-        if($user==false)
-        {
-            return $this->reject();
-        }
-
-        Session::set('user_name',null);
-        //casout();
+        include('sso/logout.php');
+        Session::pause();
         return $this->redirect('index/index/index');
     }
 
@@ -283,6 +273,8 @@ class Backstage extends Controller
             if($school[$i]==-1)
             {
                 $school_info = '所有学院';
+                $school[0] = 1;
+                $school[1] = 14;
                 break;
             }
             else if($school[$i]==1)
@@ -299,6 +291,10 @@ class Backstage extends Controller
             if($grade[$i]==-1)
             {
                 $grade_info = '所有年级';
+                $grade[0] = 2013;
+                $grade[1] = 2014;
+                $grade[2] = 2015;
+                $grade[3] = 2016;
                 break;
             }
             else if($grade[$i]==2016)
@@ -326,6 +322,8 @@ class Backstage extends Controller
         $act->save();
         $act_id = $act->id;
 
+        $school_count = sizeof($school);
+        $grade_count = sizeof($grade);
         //dump($school_count);
         //dump($grade_count);
         if($school_count>=$grade_count)

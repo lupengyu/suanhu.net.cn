@@ -1403,7 +1403,6 @@ class phpCAS
      */
     public static function logout($params = "")
     {
-        $param=array("service"=>"http://localhost/");
         phpCAS :: traceBegin();
         phpCAS::_validateClientExists();
 

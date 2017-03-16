@@ -30,6 +30,7 @@ return [
         ':name' => ['index/hello', ['method' => 'post']],
     ],
     'index'=>'index/index/index',
+    'logout'=>'index/index/logout',
     'home'=>'index/index/home',
     'user_home'=>'index/index/user_home',
     'home_people'=>'index/index/home_people',

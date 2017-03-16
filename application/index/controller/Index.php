@@ -1,6 +1,8 @@
 <?php
 namespace app\index\controller;
 
+use app\index\model\Activity;
+use think\Model;
 use think\Page;
 use think\Paginator;
 use think\Controller;
@@ -34,8 +36,10 @@ class Index extends Controller
     public function index()
     {
         Session::start();
-        //include('_cas.php');
-        Session::set('user_id',2015303135);
+        include ('sso/login.php');
+        $login_user = Session::get('loginUser');
+        Session::set('user_id', $login_user['account']);
+        //Session::set('user_id',2015303135);
 
         //判断用户是否第一次登录
         $id = Session::get('user_id');
@@ -43,8 +47,12 @@ class Index extends Controller
         $user = UserModel::where('code',$id)->find();
         if($user==null)
         {
+            if($login_user['typeName'] != '本科生') {
+                return $this->suces('本报名系统仅限本科生使用，特殊情况请联系管理员','logout');
+            }
             //数据库缺少信息，重定向用户注册界面
             Session::set('user_id',null);
+            Session::pause();
             return $this->redirect('index/index/register');
         }
         //查询到相应信息，跳转主页
@@ -53,6 +61,13 @@ class Index extends Controller
         Session::set('id',$user->id);
         Session::pause();
         return $this->redirect('index/index/home');
+    }
+
+    public function logout() {
+        Session::start();
+        include('sso/logout.php');
+        Session::pause();
+        return $this->redirect('index/index/index');
     }
 
     /**
@@ -73,6 +88,7 @@ class Index extends Controller
             Session::set('unknown_id',null);
             Session::set('user_name',$user->name);
             Session::set('id',$user->id);
+            Session::pause();
             return $this->redirect('index/index/home');
         }
 
@@ -84,6 +100,7 @@ class Index extends Controller
             Session::set('unknown_id',null);
             Session::set('user_name',$user->name);
             Session::set('id',$user->id);
+            Session::pause();
             return $this->redirect('index/index/home');
         }
         //$this->assign('id',$id);
@@ -109,18 +126,13 @@ class Index extends Controller
             Session::pause();
             return $this->redirect('index/index/home');
         }
+        $login_user = Session::get('loginUser');
         $user = new UserModel;
         $user->code = $id;
-        $user->name = input('post.name');
+        $user->name = $login_user['name'];
         $user->school = input('post.school');
         $user->grade = input('post.grade');
         $user->class = input('post.class');
-        if($user->name==null)
-        {
-            Session::set('name',$user->name);
-            Session::set('class',$user->class);
-            return $this->suces('姓名为必填！');
-        }
         if($user->school==null)
         {
             Session::set('name',$user->name);
@@ -141,9 +153,12 @@ class Index extends Controller
         }
         if(!is_numeric($user->class))
         {
-            Session::set('name',$user->name);
-            Session::set('class',$user->class);
-            return $this->suces('班级为一串数字编码！');
+            if($user->school == 17 && substr($user->class, 0, 2) == 'HC') {
+            } else {
+                Session::set('name',$user->name);
+                Session::set('class',$user->class);
+                return $this->suces('班级为一串数字编码，教育实验学院以HC打头');
+            }
         }
         $class = ClassesModel::where('code',$user->class)->find();
         if($class==null) {
@@ -166,6 +181,7 @@ class Index extends Controller
         Session::set('user_id',$id);
         Session::set('name',null);
         Session::set('class',null);
+        Session::pause();
         return $this->redirect('index/index/home');
     }
 
@@ -180,6 +196,7 @@ class Index extends Controller
         $user = UserModel::where('code',$id)->find();
         if($user==null)
         {
+            Session::pause();
             return $this->redirect('index/index/index');
         }
         $school = $user->school;
@@ -192,6 +209,16 @@ class Index extends Controller
             $grade = 0;
         }
 
+        //$list = Db::name('activity')->query("SELECT * FROM activity, navigate
+        //                   WHERE activity.id = navigate.activity_id
+        //                   AND(navigate.school = -1 OR navigate.school = 14)
+        //                   AND(navigate.grade = 2015 OR navigate.grade = -1)");
+        //$list = ActivityModel::hasWhere('navigates',['school'=>$school,'grade'=>$grade])->paginate(3);
+        //$list->toArray();
+        //$list = Db::table('activity navigate')->order('id','desc')->where('navigate.school',14);
+        //$list->validate();
+        //$list = Db::table('activity,navigate')->where('activity.id',1)->select();
+        //dump($list);
         $act = ActivityModel::where('status',1)->order('id','desc')->select();
         $list = array();
         for($i=0,$cnt = sizeof($act);$i<$cnt;$i++)
@@ -221,7 +248,6 @@ class Index extends Controller
             } else break;
         }
 
-
         import('ORG.Util.Page');
         $count=count($list);
         $Page=new Page($count,3);
@@ -249,6 +275,7 @@ class Index extends Controller
         $user = UserModel::where('code',$id)->find();
         if($user==null)
         {
+            Session::pause();
             return $this->redirect('index/index/index');
         }
         $school = $user->school;
@@ -289,7 +316,6 @@ class Index extends Controller
             } else break;
         }
 
-
         import('ORG.Util.Page');
         $count=count($list);
         $Page=new Page($count,3);
@@ -315,6 +341,7 @@ class Index extends Controller
         $user = UserModel::where('code',$user_id)->find();
         if($user==null)
         {
+            Session::pause();
             return $this->redirect('index/index/index');
         }
         $act = ActivityModel::get($id);
@@ -331,9 +358,9 @@ class Index extends Controller
             $sign->user_id = $user->id;
             $sign->name = $user->name;
             $sign->code = $user->code;
-            $sign->class=$user->class;
-            $sign->title=$act->title;
-            $sign->body=$act->summary;
+            $sign->class = $user->class;
+            $sign->title = $act->title;
+            $sign->body = $act->summary;
             $sign->school = $user->school;
             $sign->grade = $user->grade;
             $sign->save();
@@ -362,6 +389,7 @@ class Index extends Controller
         $user = UserModel::where('code',$id)->find();
         if($user==null)
         {
+            Session::pause();
             return $this->redirect('index/index/index');
         }
 

@@ -125,7 +125,7 @@
                             {if($status>0)}
                             <li><a style="text-decoration:none" href="{:url('index/backstage/index')}">后台管理</a></li>
                             {/if}
-                            <li>注销</li>
+                            <li><a style="text-decoration:none" href="{:url('index/index/logout')}">注销</a></li>
                         </ul>
                     </span>
                 </div>
@@ -144,12 +144,8 @@
         <!-- 子选项卡 -->
         <div class="nav-mobile-sub">
             <ul>
-                <li>个人资料</li>
-                <li>注销</li>
-            </ul>
-            <ul>
-                <li>活动管理</li>
-                <li>XX管理</li>
+                <li><a style="text-decoration:none" href="{:url('index/index/user_home')}">个人中心</a></li>
+                <li><a style="text-decoration:none" href="{:url('index/index/logout')}">注销</a></li>
             </ul>
         </div>
     </div>
@@ -277,7 +273,7 @@
                     </li>
                     {/if}
 
-                    {if($page<=5 and $lastpage-$page<=5)}
+                    {if($page<=5 and $lastpage<=5)}
                         {for start="2" end="$lastpage"}
                             {if($i==$page)}
                             <li class="active">
@@ -291,6 +287,33 @@
                             {/if}
                         {/for}
                     {/if}
+
+                    {if($page<=5 and $lastpage>5)}
+                        {for start="2" end="6"}
+                            {if($i==$page)}
+                            <li class="active">
+                                <span>{$page}</span>
+                            </li>
+                            {/if}
+                            {if($i!=$page)}
+                            <li>
+                                <a href="/home.html?p={$i}">{$i}</a>
+                            </li>
+                            {/if}
+                        {/for}
+                    {if($lastpage>6)}
+                        <li>
+                            <a href="/home.html?p=6">6</a>
+                        </li>
+                    {/if}
+                    {if($lastpage>7)}
+                    <li class="disabled">
+                        <span>...</span>
+                    </li>
+                    {/if}
+
+                    {/if}
+
 
                     {if($page==$lastpage)}
                     <li class="active">
