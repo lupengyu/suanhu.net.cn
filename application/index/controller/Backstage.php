@@ -16,6 +16,7 @@ use app\index\model\Classes as ClassesModel;
 use app\index\model\Navigate as NavigateModel;
 use app\index\model\Diary as DiaryModel;
 use phpmailer;
+use yii\web\UnprocessableEntityHttpException;
 
 /**
  * 后台操作类
@@ -161,6 +162,7 @@ class Backstage extends Controller
         $this->assign('list',$list);
         $this->assign('page', $page);
         $this->assign('status',$status);
+        //$this->assign('status',3);
         $this->assign('school',$school);
         $this->assign('grade',$grade);
         $this->assign('search',false);
@@ -274,16 +276,116 @@ class Backstage extends Controller
             {
                 $school_info = '所有学院';
                 $school[0] = 1;
-                $school[1] = 14;
+                $school[1] = 2;
+                $school[2] = 3;
+                $school[3] = 4;
+                $school[4] = 5;
+                $school[5] = 6;
+                $school[6] = 7;
+                $school[7] = 8;
+                $school[8] = 9;
+                $school[9] = 10;
+                $school[10] = 11;
+                $school[11] = 12;
+                $school[12] = 13;
+                $school[13] = 14;
+                $school[14] = 15;
+                $school[15] = 16;
+                $school[16] = 17;
+                $school[17] = 18;
+                $school[18] = 19;
+                $school[19] = 20;
+                $school[20] = 21;
+                $school[21] = 22;
                 break;
             }
             else if($school[$i]==1)
             {
                 $school_info = $school_info.'航空学院 ';
             }
+            else if($school[$i]==2)
+            {
+                $school_info = $school_info.'航天学院 ';
+            }
+            else if($school[$i]==3)
+            {
+                $school_info = $school_info.'航海学院 ';
+            }
+            else if($school[$i]==4)
+            {
+                $school_info = $school_info.'材料学院 ';
+            }
+            else if($school[$i]==5)
+            {
+                $school_info = $school_info.'机电学院 ';
+            }
+            else if($school[$i]==6)
+            {
+                $school_info = $school_info.'力学与土木建筑学院 ';
+            }
+            else if($school[$i]==7)
+            {
+                $school_info = $school_info.'动力与能源学院 ';
+            }
+            else if($school[$i]==8)
+            {
+                $school_info = $school_info.'电子信息学院 ';
+            }
+            else if($school[$i]==9)
+            {
+                $school_info = $school_info.'自动化学院 ';
+            }
+            else if($school[$i]==10)
+            {
+                $school_info = $school_info.'计算机学院 ';
+            }
+            else if($school[$i]==11)
+            {
+                $school_info = $school_info.'理学院 ';
+            }
+            else if($school[$i]==12)
+            {
+                $school_info = $school_info.'管理学院 ';
+            }
+            else if($school[$i]==13)
+            {
+                $school_info = $school_info.'人文与经法学院 ';
+            }
             else if($school[$i]==14)
             {
                 $school_info = $school_info.'软件与微电子学院 ';
+            }
+            else if($school[$i]==15)
+            {
+                $school_info = $school_info.'生命学院 ';
+            }
+            else if($school[$i]==16)
+            {
+                $school_info = $school_info.'外国语学院 ';
+            }
+            else if($school[$i]==17)
+            {
+                $school_info = $school_info.'教育实验学院 ';
+            }
+            else if($school[$i]==18)
+            {
+                $school_info = $school_info.'国际教育学院 ';
+            }
+            else if($school[$i]==19)
+            {
+                $school_info = $school_info.'马克思主义学院 ';
+            }
+            else if($school[$i]==20)
+            {
+                $school_info = $school_info.'西北工业大学伦敦玛丽女王大学工程学院 ';
+            }
+            else if($school[$i]==21)
+            {
+                $school_info = $school_info.'人才特区 ';
+            }
+            else if($school[$i]==22)
+            {
+                $school_info = $school_info.'其他学院 ';
             }
         }
         for($i=0;$i<$grade_count;$i++)
@@ -885,7 +987,7 @@ class Backstage extends Controller
             return $this->reject();
         }
 
-        $class = ClassesModel::where('code',$id)->find();
+        $class = ClassesModel::where('id',$id)->find();
         if($class==null) {
             return $this->suces('查无此班级');
         }
@@ -1238,6 +1340,7 @@ class Backstage extends Controller
             $school = input('post.school');
             $grade = input('post.grade');
             $type = input('post.body');
+
             if($name==null)
             {
                 return $this->suces('姓名为必填');
@@ -1256,6 +1359,12 @@ class Backstage extends Controller
             }
             if($type==null) {
                 return $this->suces('身份为必填');
+            }
+            if($type == 1) {
+                $student = UserModel::where('code',$code)->find();
+                if($student == null) {
+                    return $this->suces('学生需注册填充完信息后可以赋予权限');
+                }
             }
 
             $add_status = $user->status;
@@ -1304,6 +1413,7 @@ class Backstage extends Controller
             $name = input('post.name');
             $school = input('post.school');
             $type = input('post.body');
+
             if($name==null)
             {
                 return $this->suces('姓名为必填');
@@ -1318,6 +1428,12 @@ class Backstage extends Controller
             }
             if($type==null) {
                 return $this->suces('身份为必填');
+            }
+            if($type == 1) {
+                $student = UserModel::where('code',$code)->find();
+                if($student == null) {
+                    return $this->suces('学生需注册填充完信息后可以赋予权限');
+                }
             }
 
             $add_status = $user->status;
@@ -1363,6 +1479,7 @@ class Backstage extends Controller
             $code = input('post.code');
             $name = input('post.name');
             $type = input('post.body');
+
             if($name==null)
             {
                 return $this->suces('姓名为必填');
@@ -1373,6 +1490,12 @@ class Backstage extends Controller
             }
             if($type==null) {
                 return $this->suces('身份为必填');
+            }
+            if($type == 1) {
+                $student = UserModel::where('code',$code)->find();
+                if($student == null) {
+                    return $this->suces('学生需注册填充完信息后可以赋予权限');
+                }
             }
 
             $add_status = $user->status;
@@ -1642,9 +1765,89 @@ class Backstage extends Controller
             {
                 $objPHPExcel->getActiveSheet()->setCellValue('C'.$sum,'航空学院');
             }
+            else if($item->school==2)
+            {
+                $objPHPExcel->getActiveSheet()->setCellValue('C'.$sum,'航天学院');
+            }
+            else if($item->school==3)
+            {
+                $objPHPExcel->getActiveSheet()->setCellValue('C'.$sum,'航海学院');
+            }
+            else if($item->school==4)
+            {
+                $objPHPExcel->getActiveSheet()->setCellValue('C'.$sum,'材料学院');
+            }
+            else if($item->school==5)
+            {
+                $objPHPExcel->getActiveSheet()->setCellValue('C'.$sum,'机电学院');
+            }
+            else if($item->school==6)
+            {
+                $objPHPExcel->getActiveSheet()->setCellValue('C'.$sum,'力学与土木建筑学院');
+            }
+            else if($item->school==7)
+            {
+                $objPHPExcel->getActiveSheet()->setCellValue('C'.$sum,'动力与能源学院');
+            }
+            else if($item->school==8)
+            {
+                $objPHPExcel->getActiveSheet()->setCellValue('C'.$sum,'电子信息学院');
+            }
+            else if($item->school==9)
+            {
+                $objPHPExcel->getActiveSheet()->setCellValue('C'.$sum,'自动化学院');
+            }
+            else if($item->school==10)
+            {
+                $objPHPExcel->getActiveSheet()->setCellValue('C'.$sum,'计算机学院');
+            }
+            else if($item->school==11)
+            {
+                $objPHPExcel->getActiveSheet()->setCellValue('C'.$sum,'理学院');
+            }
+            else if($item->school==12)
+            {
+                $objPHPExcel->getActiveSheet()->setCellValue('C'.$sum,'管理学院');
+            }
+            else if($item->school==13)
+            {
+                $objPHPExcel->getActiveSheet()->setCellValue('C'.$sum,'人文与经法学院');
+            }
             else if($item->school==14)
             {
                 $objPHPExcel->getActiveSheet()->setCellValue('C'.$sum,'软件与微电子学院');
+            }
+            else if($item->school==15)
+            {
+                $objPHPExcel->getActiveSheet()->setCellValue('C'.$sum,'生命学院');
+            }
+            else if($item->school==16)
+            {
+                $objPHPExcel->getActiveSheet()->setCellValue('C'.$sum,'外国语学院');
+            }
+            else if($item->school==17)
+            {
+                $objPHPExcel->getActiveSheet()->setCellValue('C'.$sum,'教育实验学院');
+            }
+            else if($item->school==18)
+            {
+                $objPHPExcel->getActiveSheet()->setCellValue('C'.$sum,'国际教育学院');
+            }
+            else if($item->school==19)
+            {
+                $objPHPExcel->getActiveSheet()->setCellValue('C'.$sum,'马克思主义学院');
+            }
+            else if($item->school==20)
+            {
+                $objPHPExcel->getActiveSheet()->setCellValue('C'.$sum,'西北工业大学伦敦玛丽女王大学工程学院');
+            }
+            else if($item->school==21)
+            {
+                $objPHPExcel->getActiveSheet()->setCellValue('C'.$sum,'人才特区');
+            }
+            else if($item->school==22)
+            {
+                $objPHPExcel->getActiveSheet()->setCellValue('C'.$sum,'其他学院');
             }
             $objPHPExcel->getActiveSheet()->setCellValue('D'.$sum,  $item->grade.'级');
             $objPHPExcel->getActiveSheet()->setCellValue('E'.$sum,  $item->class);
@@ -1679,9 +1882,89 @@ class Backstage extends Controller
                 {
                     $objPHPExcel->getActiveSheet()->setCellValue('C'.$sum,'航空学院');
                 }
+                else if($item->school==2)
+                {
+                    $objPHPExcel->getActiveSheet()->setCellValue('C'.$sum,'航天学院');
+                }
+                else if($item->school==3)
+                {
+                    $objPHPExcel->getActiveSheet()->setCellValue('C'.$sum,'航海学院');
+                }
+                else if($item->school==4)
+                {
+                    $objPHPExcel->getActiveSheet()->setCellValue('C'.$sum,'材料学院');
+                }
+                else if($item->school==5)
+                {
+                    $objPHPExcel->getActiveSheet()->setCellValue('C'.$sum,'机电学院');
+                }
+                else if($item->school==6)
+                {
+                    $objPHPExcel->getActiveSheet()->setCellValue('C'.$sum,'力学与土木建筑学院');
+                }
+                else if($item->school==7)
+                {
+                    $objPHPExcel->getActiveSheet()->setCellValue('C'.$sum,'动力与能源学院');
+                }
+                else if($item->school==8)
+                {
+                    $objPHPExcel->getActiveSheet()->setCellValue('C'.$sum,'电子信息学院');
+                }
+                else if($item->school==9)
+                {
+                    $objPHPExcel->getActiveSheet()->setCellValue('C'.$sum,'自动化学院');
+                }
+                else if($item->school==10)
+                {
+                    $objPHPExcel->getActiveSheet()->setCellValue('C'.$sum,'计算机学院');
+                }
+                else if($item->school==11)
+                {
+                    $objPHPExcel->getActiveSheet()->setCellValue('C'.$sum,'理学院');
+                }
+                else if($item->school==12)
+                {
+                    $objPHPExcel->getActiveSheet()->setCellValue('C'.$sum,'管理学院');
+                }
+                else if($item->school==13)
+                {
+                    $objPHPExcel->getActiveSheet()->setCellValue('C'.$sum,'人文与经法学院');
+                }
                 else if($item->school==14)
                 {
                     $objPHPExcel->getActiveSheet()->setCellValue('C'.$sum,'软件与微电子学院');
+                }
+                else if($item->school==15)
+                {
+                    $objPHPExcel->getActiveSheet()->setCellValue('C'.$sum,'生命学院');
+                }
+                else if($item->school==16)
+                {
+                    $objPHPExcel->getActiveSheet()->setCellValue('C'.$sum,'外国语学院');
+                }
+                else if($item->school==17)
+                {
+                    $objPHPExcel->getActiveSheet()->setCellValue('C'.$sum,'教育实验学院');
+                }
+                else if($item->school==18)
+                {
+                    $objPHPExcel->getActiveSheet()->setCellValue('C'.$sum,'国际教育学院');
+                }
+                else if($item->school==19)
+                {
+                    $objPHPExcel->getActiveSheet()->setCellValue('C'.$sum,'马克思主义学院');
+                }
+                else if($item->school==20)
+                {
+                    $objPHPExcel->getActiveSheet()->setCellValue('C'.$sum,'西北工业大学伦敦玛丽女王大学工程学院');
+                }
+                else if($item->school==21)
+                {
+                    $objPHPExcel->getActiveSheet()->setCellValue('C'.$sum,'人才特区');
+                }
+                else if($item->school==22)
+                {
+                    $objPHPExcel->getActiveSheet()->setCellValue('C'.$sum,'其他学院');
                 }
                 $objPHPExcel->getActiveSheet()->setCellValue('D'.$sum,  $item->grade.'级');
                 $objPHPExcel->getActiveSheet()->setCellValue('E'.$sum,  $item->class);
@@ -1750,13 +2033,94 @@ class Backstage extends Controller
             $excel->getActiveSheet()->getStyle('A'.$sum)->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
             $excel->getActiveSheet()->setCellValue('B'.$sum,  $item->code);
             $excel->getActiveSheet()->getStyle('B'.$sum)->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
+
             if($item->school==1)
             {
-                $excel->getActiveSheet()->setCellValue('C'.$sum,  '航空学院');
+                $excel->getActiveSheet()->setCellValue('C'.$sum,'航空学院');
+            }
+            else if($item->school==2)
+            {
+                $excel->getActiveSheet()->setCellValue('C'.$sum,'航天学院');
+            }
+            else if($item->school==3)
+            {
+                $excel->getActiveSheet()->setCellValue('C'.$sum,'航海学院');
+            }
+            else if($item->school==4)
+            {
+                $excel->getActiveSheet()->setCellValue('C'.$sum,'材料学院');
+            }
+            else if($item->school==5)
+            {
+                $excel->getActiveSheet()->setCellValue('C'.$sum,'机电学院');
+            }
+            else if($item->school==6)
+            {
+                $excel->getActiveSheet()->setCellValue('C'.$sum,'力学与土木建筑学院');
+            }
+            else if($item->school==7)
+            {
+                $excel->getActiveSheet()->setCellValue('C'.$sum,'动力与能源学院');
+            }
+            else if($item->school==8)
+            {
+                $excel->getActiveSheet()->setCellValue('C'.$sum,'电子信息学院');
+            }
+            else if($item->school==9)
+            {
+                $excel->getActiveSheet()->setCellValue('C'.$sum,'自动化学院');
+            }
+            else if($item->school==10)
+            {
+                $excel->getActiveSheet()->setCellValue('C'.$sum,'计算机学院');
+            }
+            else if($item->school==11)
+            {
+                $excel->getActiveSheet()->setCellValue('C'.$sum,'理学院');
+            }
+            else if($item->school==12)
+            {
+                $excel->getActiveSheet()->setCellValue('C'.$sum,'管理学院');
+            }
+            else if($item->school==13)
+            {
+                $excel->getActiveSheet()->setCellValue('C'.$sum,'人文与经法学院');
             }
             else if($item->school==14)
             {
-                $excel->getActiveSheet()->setCellValue('C'.$sum,  '软件与微电子学院');
+                $excel->getActiveSheet()->setCellValue('C'.$sum,'软件与微电子学院');
+            }
+            else if($item->school==15)
+            {
+                $excel->getActiveSheet()->setCellValue('C'.$sum,'生命学院');
+            }
+            else if($item->school==16)
+            {
+                $excel->getActiveSheet()->setCellValue('C'.$sum,'外国语学院');
+            }
+            else if($item->school==17)
+            {
+                $excel->getActiveSheet()->setCellValue('C'.$sum,'教育实验学院');
+            }
+            else if($item->school==18)
+            {
+                $excel->getActiveSheet()->setCellValue('C'.$sum,'国际教育学院');
+            }
+            else if($item->school==19)
+            {
+                $excel->getActiveSheet()->setCellValue('C'.$sum,'马克思主义学院');
+            }
+            else if($item->school==20)
+            {
+                $excel->getActiveSheet()->setCellValue('C'.$sum,'西北工业大学伦敦玛丽女王大学工程学院');
+            }
+            else if($item->school==21)
+            {
+                $excel->getActiveSheet()->setCellValue('C'.$sum,'人才特区');
+            }
+            else if($item->school==22)
+            {
+                $excel->getActiveSheet()->setCellValue('C'.$sum,'其他学院');
             }
             $excel->getActiveSheet()->setCellValue('D'.$sum,  $item->grade.'级');
             $excel->getActiveSheet()->setCellValue('E'.$sum,  $item->sign);
@@ -1814,13 +2178,94 @@ class Backstage extends Controller
         $objPHPExcel->getActiveSheet()->getStyle('B1')->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
 
         $objPHPExcel->getActiveSheet()->setCellValue('A2', '所属学院');
+
         if($class->school==1)
         {
             $objPHPExcel->getActiveSheet()->setCellValue('B2','航空学院');
         }
+        else if($class->school==2)
+        {
+            $objPHPExcel->getActiveSheet()->setCellValue('B2','航天学院');
+        }
+        else if($class->school==3)
+        {
+            $objPHPExcel->getActiveSheet()->setCellValue('B2','航海学院');
+        }
+        else if($class->school==4)
+        {
+            $objPHPExcel->getActiveSheet()->setCellValue('B2','材料学院');
+        }
+        else if($class->school==5)
+        {
+            $objPHPExcel->getActiveSheet()->setCellValue('B2','机电学院');
+        }
+        else if($class->school==6)
+        {
+            $objPHPExcel->getActiveSheet()->setCellValue('B2','力学与土木建筑学院');
+        }
+        else if($class->school==7)
+        {
+            $objPHPExcel->getActiveSheet()->setCellValue('B2','动力与能源学院');
+        }
+        else if($class->school==8)
+        {
+            $objPHPExcel->getActiveSheet()->setCellValue('B2','电子信息学院');
+        }
+        else if($class->school==9)
+        {
+            $objPHPExcel->getActiveSheet()->setCellValue('B2','自动化学院');
+        }
+        else if($class->school==10)
+        {
+            $objPHPExcel->getActiveSheet()->setCellValue('B2','计算机学院');
+        }
+        else if($class->school==11)
+        {
+            $objPHPExcel->getActiveSheet()->setCellValue('B2','理学院');
+        }
+        else if($class->school==12)
+        {
+            $objPHPExcel->getActiveSheet()->setCellValue('B2','管理学院');
+        }
+        else if($class->school==13)
+        {
+            $objPHPExcel->getActiveSheet()->setCellValue('B2','人文与经法学院');
+        }
         else if($class->school==14)
         {
-            $objPHPExcel->getActiveSheet()->setCellValue('B2', '软件与微电子学院');
+            $objPHPExcel->getActiveSheet()->setCellValue('B2','软件与微电子学院');
+        }
+        else if($class->school==15)
+        {
+            $objPHPExcel->getActiveSheet()->setCellValue('B2','生命学院');
+        }
+        else if($class->school==16)
+        {
+            $objPHPExcel->getActiveSheet()->setCellValue('B2','外国语学院');
+        }
+        else if($class->school==17)
+        {
+            $objPHPExcel->getActiveSheet()->setCellValue('B2','教育实验学院');
+        }
+        else if($class->school==18)
+        {
+            $objPHPExcel->getActiveSheet()->setCellValue('B2','国际教育学院');
+        }
+        else if($class->school==19)
+        {
+            $objPHPExcel->getActiveSheet()->setCellValue('B2','马克思主义学院');
+        }
+        else if($class->school==20)
+        {
+            $objPHPExcel->getActiveSheet()->setCellValue('B2','西北工业大学伦敦玛丽女王大学工程学院');
+        }
+        else if($class->school==21)
+        {
+            $objPHPExcel->getActiveSheet()->setCellValue('B2','人才特区');
+        }
+        else if($class->school==22)
+        {
+            $objPHPExcel->getActiveSheet()->setCellValue('B2','其他学院');
         }
 
 
@@ -1928,13 +2373,94 @@ class Backstage extends Controller
             $excel->getActiveSheet()->getStyle('B'.$sum)->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
             $excel->getActiveSheet()->setCellValue('C'.$sum,  $item->code);
             $excel->getActiveSheet()->getStyle('C'.$sum)->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
+
             if($item->school==1)
             {
-                $excel->getActiveSheet()->setCellValue('D'.$sum,  '航空学院');
+                $excel->getActiveSheet()->setCellValue('D'.$sum,'航空学院');
+            }
+            else if($item->school==2)
+            {
+                $excel->getActiveSheet()->setCellValue('D'.$sum,'航天学院');
+            }
+            else if($item->school==3)
+            {
+                $excel->getActiveSheet()->setCellValue('D'.$sum,'航海学院');
+            }
+            else if($item->school==4)
+            {
+                $excel->getActiveSheet()->setCellValue('D'.$sum,'材料学院');
+            }
+            else if($item->school==5)
+            {
+                $excel->getActiveSheet()->setCellValue('D'.$sum,'机电学院');
+            }
+            else if($item->school==6)
+            {
+                $excel->getActiveSheet()->setCellValue('D'.$sum,'力学与土木建筑学院');
+            }
+            else if($item->school==7)
+            {
+                $excel->getActiveSheet()->setCellValue('D'.$sum,'动力与能源学院');
+            }
+            else if($item->school==8)
+            {
+                $excel->getActiveSheet()->setCellValue('D'.$sum,'电子信息学院');
+            }
+            else if($item->school==9)
+            {
+                $excel->getActiveSheet()->setCellValue('D'.$sum,'自动化学院');
+            }
+            else if($item->school==10)
+            {
+                $excel->getActiveSheet()->setCellValue('D'.$sum,'计算机学院');
+            }
+            else if($item->school==11)
+            {
+                $excel->getActiveSheet()->setCellValue('D'.$sum,'理学院');
+            }
+            else if($item->school==12)
+            {
+                $excel->getActiveSheet()->setCellValue('D'.$sum,'管理学院');
+            }
+            else if($item->school==13)
+            {
+                $excel->getActiveSheet()->setCellValue('D'.$sum,'人文与经法学院');
             }
             else if($item->school==14)
             {
-                $excel->getActiveSheet()->setCellValue('D'.$sum,  '软件与微电子学院');
+                $excel->getActiveSheet()->setCellValue('D'.$sum,'软件与微电子学院');
+            }
+            else if($item->school==15)
+            {
+                $excel->getActiveSheet()->setCellValue('D'.$sum,'生命学院');
+            }
+            else if($item->school==16)
+            {
+                $excel->getActiveSheet()->setCellValue('D'.$sum,'外国语学院');
+            }
+            else if($item->school==17)
+            {
+                $excel->getActiveSheet()->setCellValue('D'.$sum,'教育实验学院');
+            }
+            else if($item->school==18)
+            {
+                $excel->getActiveSheet()->setCellValue('D'.$sum,'国际教育学院');
+            }
+            else if($item->school==19)
+            {
+                $excel->getActiveSheet()->setCellValue('D'.$sum,'马克思主义学院');
+            }
+            else if($item->school==20)
+            {
+                $excel->getActiveSheet()->setCellValue('D'.$sum,'西北工业大学伦敦玛丽女王大学工程学院');
+            }
+            else if($item->school==21)
+            {
+                $excel->getActiveSheet()->setCellValue('D'.$sum,'人才特区');
+            }
+            else if($item->school==22)
+            {
+                $excel->getActiveSheet()->setCellValue('D'.$sum,'其他学院');
             }
             $excel->getActiveSheet()->setCellValue('E'.$sum,  $item->grade.'级');
             $excel->getActiveSheet()->setCellValue('F'.$sum,  $item->class);
@@ -1999,13 +2525,94 @@ class Backstage extends Controller
         $objPHPExcel->getActiveSheet()->getStyle('B2')->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
 
         $objPHPExcel->getActiveSheet()->setCellValue('A3', '学院');
+
         if($user->school==1)
         {
             $objPHPExcel->getActiveSheet()->setCellValue('B3','航空学院');
         }
+        else if($user->school==2)
+        {
+            $objPHPExcel->getActiveSheet()->setCellValue('B3','航天学院');
+        }
+        else if($user->school==3)
+        {
+            $objPHPExcel->getActiveSheet()->setCellValue('B3','航海学院');
+        }
+        else if($user->school==4)
+        {
+            $objPHPExcel->getActiveSheet()->setCellValue('B3','材料学院');
+        }
+        else if($user->school==5)
+        {
+            $objPHPExcel->getActiveSheet()->setCellValue('B3','机电学院');
+        }
+        else if($user->school==6)
+        {
+            $objPHPExcel->getActiveSheet()->setCellValue('B3','力学与土木建筑学院');
+        }
+        else if($user->school==7)
+        {
+            $objPHPExcel->getActiveSheet()->setCellValue('B3','动力与能源学院');
+        }
+        else if($user->school==8)
+        {
+            $objPHPExcel->getActiveSheet()->setCellValue('B3','电子信息学院');
+        }
+        else if($user->school==9)
+        {
+            $objPHPExcel->getActiveSheet()->setCellValue('B3','自动化学院');
+        }
+        else if($user->school==10)
+        {
+            $objPHPExcel->getActiveSheet()->setCellValue('B3','计算机学院');
+        }
+        else if($user->school==11)
+        {
+            $objPHPExcel->getActiveSheet()->setCellValue('B3','理学院');
+        }
+        else if($user->school==12)
+        {
+            $objPHPExcel->getActiveSheet()->setCellValue('B3','管理学院');
+        }
+        else if($user->school==13)
+        {
+            $objPHPExcel->getActiveSheet()->setCellValue('B3','人文与经法学院');
+        }
         else if($user->school==14)
         {
-            $objPHPExcel->getActiveSheet()->setCellValue('B3', '软件与微电子学院');
+            $objPHPExcel->getActiveSheet()->setCellValue('B3','软件与微电子学院');
+        }
+        else if($user->school==15)
+        {
+            $objPHPExcel->getActiveSheet()->setCellValue('B3','生命学院');
+        }
+        else if($user->school==16)
+        {
+            $objPHPExcel->getActiveSheet()->setCellValue('B3','外国语学院');
+        }
+        else if($user->school==17)
+        {
+            $objPHPExcel->getActiveSheet()->setCellValue('B3','教育实验学院');
+        }
+        else if($user->school==18)
+        {
+            $objPHPExcel->getActiveSheet()->setCellValue('B3','国际教育学院');
+        }
+        else if($user->school==19)
+        {
+            $objPHPExcel->getActiveSheet()->setCellValue('B3','马克思主义学院');
+        }
+        else if($user->school==20)
+        {
+            $objPHPExcel->getActiveSheet()->setCellValue('B3','西北工业大学伦敦玛丽女王大学工程学院');
+        }
+        else if($user->school==21)
+        {
+            $objPHPExcel->getActiveSheet()->setCellValue('B3','人才特区');
+        }
+        else if($user->school==22)
+        {
+            $objPHPExcel->getActiveSheet()->setCellValue('B3','其他学院');
         }
 
 
@@ -2208,3 +2815,4 @@ class Backstage extends Controller
         $write->save('php://output');
     }
 }
+//收官，再也不想写php了

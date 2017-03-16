@@ -178,14 +178,34 @@
                                                     <label>学号/工号</label>
                                                     <input type="text" name="code" value="" class="form-control" maxlength="28">
                                                 </div>
-                                                {if($status<=1)}
+                                                {if($status<=2)}
                                                 <div class="form-group">
                                                     <label>学院</label>
                                                     <select class="form-control" name = "school">
                                                         <option value="0"> </option>
                                                         <option value="0">所有学院</option>
                                                         <option value="1">航空学院</option>
+                                                        <option value="2">航天学院</option>
+                                                        <option value="3">航海学院</option>
+                                                        <option value="4">材料学院</option>
+                                                        <option value="5">机电学院</option>
+                                                        <option value="6">力学与土木建筑学院</option>
+                                                        <option value="7">动力与能源学院</option>
+                                                        <option value="8">电子信息学院</option>
+                                                        <option value="9">自动化学院</option>
+                                                        <option value="10">计算机学院</option>
+                                                        <option value="11">理学院</option>
+                                                        <option value="12">管理学院</option>
+                                                        <option value="13">人文与经法学院</option>
                                                         <option value="14">软件与微电子学院</option>
+                                                        <option value="15">生命学院</option>
+                                                        <option value="16">外国语学院</option>
+                                                        <option value="17">教育实验学院</option>
+                                                        <option value="18">国际教育学院</option>
+                                                        <option value="19">马克思主义学院</option>
+                                                        <option value="20">西北工业大学伦敦玛丽女王大学工程学院</option>
+                                                        <option value="21">人才特区</option>
+                                                        <option value="22">其他学院</option>
                                                     </select>
                                                 </div>
                                                 {/if}
@@ -242,7 +262,27 @@
                                                     <select class="form-control" name = "school">
                                                         <option value="0"> </option>
                                                         <option value="1">航空学院</option>
+                                                        <option value="2">航天学院</option>
+                                                        <option value="3">航海学院</option>
+                                                        <option value="4">材料学院</option>
+                                                        <option value="5">机电学院</option>
+                                                        <option value="6">力学与土木建筑学院</option>
+                                                        <option value="7">动力与能源学院</option>
+                                                        <option value="8">电子信息学院</option>
+                                                        <option value="9">自动化学院</option>
+                                                        <option value="10">计算机学院</option>
+                                                        <option value="11">理学院</option>
+                                                        <option value="12">管理学院</option>
+                                                        <option value="13">人文与经法学院</option>
                                                         <option value="14">软件与微电子学院</option>
+                                                        <option value="15">生命学院</option>
+                                                        <option value="16">外国语学院</option>
+                                                        <option value="17">教育实验学院</option>
+                                                        <option value="18">国际教育学院</option>
+                                                        <option value="19">马克思主义学院</option>
+                                                        <option value="20">西北工业大学伦敦玛丽女王大学工程学院</option>
+                                                        <option value="21">人才特区</option>
+                                                        <option value="22">其他学院</option>
                                                     </select>
                                                 </div>
                                                 {/if}
@@ -253,14 +293,54 @@
                                                     <select class="form-control" name = "school" disabled>
                                                         <option value="0"> </option>
                                                         <option value="1" {if($school==1)} selected="" {/if}>航空学院</option>
+                                                        <option value="2" {if($school==2)} selected="" {/if}>航天学院</option>
+                                                        <option value="3" {if($school==3)} selected="" {/if}>航海学院</option>
+                                                        <option value="4" {if($school==4)} selected="" {/if}>材料学院</option>
+                                                        <option value="5" {if($school==5)} selected="" {/if}>机电学院</option>
+                                                        <option value="6" {if($school==6)} selected="" {/if}>力学与土木建筑学院</option>
+                                                        <option value="7" {if($school==7)} selected="" {/if}>动力与能源学院</option>
+                                                        <option value="8" {if($school==8)} selected="" {/if}>电子信息学院</option>
+                                                        <option value="9" {if($school==9)} selected="" {/if}>自动化学院</option>
+                                                        <option value="10" {if($school==10)} selected="" {/if}>计算机学院</option>
+                                                        <option value="11" {if($school==11)} selected="" {/if}>理学院</option>
+                                                        <option value="12" {if($school==12)} selected="" {/if}>管理学院</option>
+                                                        <option value="13" {if($school==13)} selected="" {/if}>人文与经法学院</option>
                                                         <option value="14" {if($school==14)} selected="" {/if}>软件与微电子学院</option>
+                                                        <option value="15" {if($school==15)} selected="" {/if}>生命学院</option>
+                                                        <option value="16" {if($school==16)} selected="" {/if}>外国语学院</option>
+                                                        <option value="17" {if($school==17)} selected="" {/if}>教育实验学院</option>
+                                                        <option value="18" {if($school==18)} selected="" {/if}>国际教育学院</option>
+                                                        <option value="19" {if($school==19)} selected="" {/if}>马克思主义学院</option>
+                                                        <option value="20" {if($school==20)} selected="" {/if}>西北工业大学伦敦玛丽女王大学工程学院</option>
+                                                        <option value="21" {if($school==21)} selected="" {/if}>人才特区</option>
+                                                        <option value="22" {if($school==22)} selected="" {/if}>其他学院</option>
                                                     </select>
                                                     {/if}
                                                     {if($userstatus>=3)}
                                                     <select class="form-control" name = "school">
                                                         <option value="0"> </option>
                                                         <option value="1">航空学院</option>
+                                                        <option value="2">航天学院</option>
+                                                        <option value="3">航海学院</option>
+                                                        <option value="4">材料学院</option>
+                                                        <option value="5">机电学院</option>
+                                                        <option value="6">力学与土木建筑学院</option>
+                                                        <option value="7">动力与能源学院</option>
+                                                        <option value="8">电子信息学院</option>
+                                                        <option value="9">自动化学院</option>
+                                                        <option value="10">计算机学院</option>
+                                                        <option value="11">理学院</option>
+                                                        <option value="12">管理学院</option>
+                                                        <option value="13">人文与经法学院</option>
                                                         <option value="14">软件与微电子学院</option>
+                                                        <option value="15">生命学院</option>
+                                                        <option value="16">外国语学院</option>
+                                                        <option value="17">教育实验学院</option>
+                                                        <option value="18">国际教育学院</option>
+                                                        <option value="19">马克思主义学院</option>
+                                                        <option value="20">西北工业大学伦敦玛丽女王大学工程学院</option>
+                                                        <option value="21">人才特区</option>
+                                                        <option value="22">其他学院</option>
                                                     </select>
                                                     {/if}
                                                 </div>
@@ -335,11 +415,71 @@
                                         <td style="width: 10%">{$list.code}</td>
                                         {if($status<=2)}
                                         <td style="width: 10%">
-                                            {if($list.school==1)}
+                                            {if($list->school==1)}
                                             航空学院
                                             {/if}
-                                            {if($list.school==14)}
+                                            {if($list->school==2)}
+                                            航天学院
+                                            {/if}
+                                            {if($list->school==3)}
+                                            航海学院
+                                            {/if}
+                                            {if($list->school==4)}
+                                            材料学院
+                                            {/if}
+                                            {if($list->school==5)}
+                                            机电学院
+                                            {/if}
+                                            {if($list->school==6)}
+                                            力学与土木建筑学院
+                                            {/if}
+                                            {if($list->school==7)}
+                                            动力与能源学院
+                                            {/if}
+                                            {if($list->school==8)}
+                                            电子信息学院
+                                            {/if}
+                                            {if($list->school==9)}
+                                            自动化学院
+                                            {/if}
+                                            {if($list->school==10)}
+                                            计算机学院
+                                            {/if}
+                                            {if($list->school==11)}
+                                            理学院
+                                            {/if}
+                                            {if($list->school==12)}
+                                            管理学院
+                                            {/if}
+                                            {if($list->school==13)}
+                                            人文与经法学院
+                                            {/if}
+                                            {if($list->school==14)}
                                             软件与微电子学院
+                                            {/if}
+                                            {if($list->school==15)}
+                                            生命学院
+                                            {/if}
+                                            {if($list->school==16)}
+                                            外国语学院
+                                            {/if}
+                                            {if($list->school==17)}
+                                            教育实验学院
+                                            {/if}
+                                            {if($list->school==18)}
+                                            国际教育学院
+                                            {/if}
+                                            {if($list->school==19)}
+                                            马克思主义学院
+                                            {/if}
+                                            {if($list->school==20)}
+                                            西北工业大学伦敦玛丽女王大学工程学院
+                                            {/if}
+                                            {if($list->school==21)}
+                                            人才特区
+                                            {/if}
+                                            {if($list->school==22)}
+                                            其他学院
                                             {/if}
                                         </td>
                                         {/if}

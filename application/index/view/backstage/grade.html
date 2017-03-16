@@ -147,7 +147,27 @@
                                                         <option value="0"> </option>
                                                         <option value="0">所有学院</option>
                                                         <option value="1">航空学院</option>
+                                                        <option value="2">航天学院</option>
+                                                        <option value="3">航海学院</option>
+                                                        <option value="4">材料学院</option>
+                                                        <option value="5">机电学院</option>
+                                                        <option value="6">力学与土木建筑学院</option>
+                                                        <option value="7">动力与能源学院</option>
+                                                        <option value="8">电子信息学院</option>
+                                                        <option value="9">自动化学院</option>
+                                                        <option value="10">计算机学院</option>
+                                                        <option value="11">理学院</option>
+                                                        <option value="12">管理学院</option>
+                                                        <option value="13">人文与经法学院</option>
                                                         <option value="14">软件与微电子学院</option>
+                                                        <option value="15">生命学院</option>
+                                                        <option value="16">外国语学院</option>
+                                                        <option value="17">教育实验学院</option>
+                                                        <option value="18">国际教育学院</option>
+                                                        <option value="19">马克思主义学院</option>
+                                                        <option value="20">西北工业大学伦敦玛丽女王大学工程学院</option>
+                                                        <option value="21">人才特区</option>
+                                                        <option value="22">其他学院</option>
                                                     </select>
                                                 </div>
 
@@ -192,11 +212,71 @@
                                                     target="_blank"
                                                     {/if}
                                             href="{:url('index/backstage/gradeinformation',['id'=>$list.id])}">
-                                            {if($list.school==1)}
+                                            {if($list->school==1)}
                                             航空学院
                                             {/if}
-                                            {if($list.school==14)}
+                                            {if($list->school==2)}
+                                            航天学院
+                                            {/if}
+                                            {if($list->school==3)}
+                                            航海学院
+                                            {/if}
+                                            {if($list->school==4)}
+                                            材料学院
+                                            {/if}
+                                            {if($list->school==5)}
+                                            机电学院
+                                            {/if}
+                                            {if($list->school==6)}
+                                            力学与土木建筑学院
+                                            {/if}
+                                            {if($list->school==7)}
+                                            动力与能源学院
+                                            {/if}
+                                            {if($list->school==8)}
+                                            电子信息学院
+                                            {/if}
+                                            {if($list->school==9)}
+                                            自动化学院
+                                            {/if}
+                                            {if($list->school==10)}
+                                            计算机学院
+                                            {/if}
+                                            {if($list->school==11)}
+                                            理学院
+                                            {/if}
+                                            {if($list->school==12)}
+                                            管理学院
+                                            {/if}
+                                            {if($list->school==13)}
+                                            人文与经法学院
+                                            {/if}
+                                            {if($list->school==14)}
                                             软件与微电子学院
+                                            {/if}
+                                            {if($list->school==15)}
+                                            生命学院
+                                            {/if}
+                                            {if($list->school==16)}
+                                            外国语学院
+                                            {/if}
+                                            {if($list->school==17)}
+                                            教育实验学院
+                                            {/if}
+                                            {if($list->school==18)}
+                                            国际教育学院
+                                            {/if}
+                                            {if($list->school==19)}
+                                            马克思主义学院
+                                            {/if}
+                                            {if($list->school==20)}
+                                            西北工业大学伦敦玛丽女王大学工程学院
+                                            {/if}
+                                            {if($list->school==21)}
+                                            人才特区
+                                            {/if}
+                                            {if($list->school==22)}
+                                            其他学院
                                             {/if}
                                             {$list.grade}级
                                             </a>

@@ -243,7 +243,7 @@
                         </figcation>
                     </div>
                     <div class="a-buttons">
-                        <a class="submit" style="text-decoration:none"  href="{:url('index/index/sign',['id'=>$item['id']])}">报名</a><a style="text-decoration:none"  class="more" href="">详情</a>
+                        <a class="submit" style="text-decoration:none"  href="javascript:if(confirm('确定报名么'))location='{:url('index/index/sign',['id'=>$item['id']])}'">报名</a><a style="text-decoration:none"  class="more" href="">详情</a>
                     </div>
                 </div>
                 {/volist}

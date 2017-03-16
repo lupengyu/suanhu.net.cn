@@ -168,6 +168,7 @@ class Index extends Controller
             $class->grade = $user->grade;
             $class->save();
         }
+        $user->class_id = $class->id;
         $grade = GradeModel::where('grade',$user->grade)->where('school',$user->grade)->find();
         if($grade==null) {
             $grade = new GradeModel();

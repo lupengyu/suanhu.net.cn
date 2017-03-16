@@ -141,11 +141,71 @@
                                     <tr style="min-height: 51px;">
                                         <th style="width: 20%">学院</th>
                                         <td style="width: 80%">
-                                            {if($user.school==1)}
+                                            {if($user->school==1)}
                                             航空学院
                                             {/if}
-                                            {if($user.school==14)}
+                                            {if($user->school==2)}
+                                            航天学院
+                                            {/if}
+                                            {if($user->school==3)}
+                                            航海学院
+                                            {/if}
+                                            {if($user->school==4)}
+                                            材料学院
+                                            {/if}
+                                            {if($user->school==5)}
+                                            机电学院
+                                            {/if}
+                                            {if($user->school==6)}
+                                            力学与土木建筑学院
+                                            {/if}
+                                            {if($user->school==7)}
+                                            动力与能源学院
+                                            {/if}
+                                            {if($user->school==8)}
+                                            电子信息学院
+                                            {/if}
+                                            {if($user->school==9)}
+                                            自动化学院
+                                            {/if}
+                                            {if($user->school==10)}
+                                            计算机学院
+                                            {/if}
+                                            {if($user->school==11)}
+                                            理学院
+                                            {/if}
+                                            {if($user->school==12)}
+                                            管理学院
+                                            {/if}
+                                            {if($user->school==13)}
+                                            人文与经法学院
+                                            {/if}
+                                            {if($user->school==14)}
                                             软件与微电子学院
+                                            {/if}
+                                            {if($user->school==15)}
+                                            生命学院
+                                            {/if}
+                                            {if($user->school==16)}
+                                            外国语学院
+                                            {/if}
+                                            {if($user->school==17)}
+                                            教育实验学院
+                                            {/if}
+                                            {if($user->school==18)}
+                                            国际教育学院
+                                            {/if}
+                                            {if($user->school==19)}
+                                            马克思主义学院
+                                            {/if}
+                                            {if($user->school==20)}
+                                            西北工业大学伦敦玛丽女王大学工程学院
+                                            {/if}
+                                            {if($user->school==21)}
+                                            人才特区
+                                            {/if}
+                                            {if($user->school==22)}
+                                            其他学院
                                             {/if}
                                         </td>
                                     </tr>
@@ -155,7 +215,7 @@
                                     </tr>
                                     <tr style="min-height: 51px;">
                                         <th style="width: 20%">班级</th>
-                                        <td style="width: 80%"><a href="{:url('index/backstage/classinformation',['id'=>$user.class])}">{$user.class}</a></td>
+                                        <td style="width: 80%"><a href="{:url('index/backstage/classinformation',['id'=>$user.class_id])}">{$user.class}</a></td>
                                     </tr>
                                     <tr style="min-height: 51px;">
                                         <th style="width: 20%">报名总数</th>
