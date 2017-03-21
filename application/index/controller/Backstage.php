@@ -262,8 +262,8 @@ class Backstage extends Controller
                 return $this->suces('请选择图像文件！');
             }
             $image = Image::open($file);
-            // $image->thumb(105, 125, Image::THUMB_CENTER);
-            $saveName = $request->time() . '.png';
+            $image->thumb(237, 105, Image::THUMB_CENTER);
+            $saveName = $user->id.$request->time() . '.png';
             $image->save(ROOT_PATH . 'public/uploads/' . $saveName);
             $act->photo = $saveName;
         }

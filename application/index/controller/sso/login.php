@@ -8,7 +8,7 @@ require_once 'supwisdom/Init.php';
 function doLogin(array $loginUser = array())
 {
     // 业务系统的登录逻辑   开始
-    dump($loginUser);
+    //dump($loginUser);
     // Example
     $_SESSION['loginUser'] = $loginUser;
     // TODO

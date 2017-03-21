@@ -134,11 +134,72 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="panel panel-default">
-                        <div class="panel-heading" style="min-height: 0">{if($grade.school==1)}
+                        <div class="panel-heading" style="min-height: 0">
+                            {if($grade->school==1)}
                             航空学院
                             {/if}
-                            {if($grade.school==14)}
+                            {if($grade->school==2)}
+                            航天学院
+                            {/if}
+                            {if($grade->school==3)}
+                            航海学院
+                            {/if}
+                            {if($grade->school==4)}
+                            材料学院
+                            {/if}
+                            {if($grade->school==5)}
+                            机电学院
+                            {/if}
+                            {if($grade->school==6)}
+                            力学与土木建筑学院
+                            {/if}
+                            {if($grade->school==7)}
+                            动力与能源学院
+                            {/if}
+                            {if($grade->school==8)}
+                            电子信息学院
+                            {/if}
+                            {if($grade->school==9)}
+                            自动化学院
+                            {/if}
+                            {if($grade->school==10)}
+                            计算机学院
+                            {/if}
+                            {if($grade->school==11)}
+                            理学院
+                            {/if}
+                            {if($grade->school==12)}
+                            管理学院
+                            {/if}
+                            {if($grade->school==13)}
+                            人文与经法学院
+                            {/if}
+                            {if($grade->school==14)}
                             软件与微电子学院
+                            {/if}
+                            {if($grade->school==15)}
+                            生命学院
+                            {/if}
+                            {if($grade->school==16)}
+                            外国语学院
+                            {/if}
+                            {if($grade->school==17)}
+                            教育实验学院
+                            {/if}
+                            {if($grade->school==18)}
+                            国际教育学院
+                            {/if}
+                            {if($grade->school==19)}
+                            马克思主义学院
+                            {/if}
+                            {if($grade->school==20)}
+                            西北工业大学伦敦玛丽女王大学工程学院
+                            {/if}
+                            {if($grade->school==21)}
+                            人才特区
+                            {/if}
+                            {if($grade->school==22)}
+                            其他学院
                             {/if}
                             {$grade.grade}级</div>
                         <div class="panel-body">
@@ -148,7 +209,8 @@
                                     <form role="form" method="post" enctype="multipart/form-data" action="{:url('index/backstage/gradeexcel',['id'=>$grade['id']])}">
                                         <div class="demo1">
                                             开始时间：<input type="text" id="start_time" name="start_time"> <br/> <br/>
-                                            截止时间：<input type="text" id="end_time" name="end_time"> <br/> <small style="color: red"> *默认时钟分钟均为00:00:00</small>
+                                            截止时间：<input type="text" id="end_time" name="end_time"> <br/>
+                                            <small style="color: red"> *默认时钟分钟均为00:00:00</small>
                                         </div>
                                         <input type="hidden" name="__token__" value="{$Request.token}" />
                                         <input type="submit" id="submit2" class="btn btn-success" value=" 生成报表 " style="width: 42%">

@@ -36,6 +36,7 @@ return [
     'home_people'=>'index/index/home_people',
     'register'=>'index/index/register',
     'userregister'=>'index/index/userregister',
+    'pagespeed'=>'index/index/pagespeed',
     'backstage' =>'index/backstage/index',
     'backstage/home' =>'index/backstage/home',
     'backstage/logout' =>'index/backstage/logout',

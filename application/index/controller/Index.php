@@ -70,6 +70,16 @@ class Index extends Controller
         return $this->redirect('index/index/index');
     }
 
+    public function pagespeed() {
+        $this->assign('status',0);
+        $this->assign('type','time');
+        $list = ActivityModel::where('status',1)->order('id','desc')->paginate(3);
+        $this->assign('list',$list);
+        $this->assign('page',1);
+        $this->assign('lastpage',1);
+        return $this->fetch('index/home');
+    }
+
     /**
      * 用户注册界面
      *

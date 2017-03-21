@@ -156,7 +156,7 @@
             <!-- logo -->
             <div class="row" id="logo">
                 <div class="two columns">
-                    <img src="static/img/logo.PNG">
+                    <img src="/static/img/logo.PNG">
                 </div>
             </div>
             <!-- slogan -->
@@ -169,19 +169,19 @@
             <div class="row bg-menu">
                 <ul>
                     <li>
-                        <img src="static/img/hbg-1.jpg">
+                        <img src="/static/img/hbg-1.jpg" height="118" width="263">
                         <figcation class="img-tips">
                             <h4>Title of img</h4>
                             <p>tips of img</p>
                         </figcation>
                     </li><li>
-                        <img src="static/img/hbg-2.jpg">
+                        <img src="/static/img/hbg-2.jpg" height="118" width="263">
                         <figcation class="img-tips">
                             <h4>Title of img</h4>
                             <p>tips of img</p>
                         </figcation>
                     </li><li>
-                        <img src="static/img/hbg-1.jpg">
+                        <img src="/static/img/hbg-1.jpg" height="118" width="263">
                         <figcation class="img-tips">
                             <h4>Title of img</h4>
                             <p>tips of img</p>
@@ -233,10 +233,10 @@
                     </div>
                     <div class="a-img">
                         {if($item.photo==null)}
-                        <img src="static/img/a-1.jpg">
+                        <img src="static/img/a-1.jpg" width="237" height="105">
                         {/if}
                         {if($item.photo!=null)}
-                        <img src="uploads/{$item.photo}">
+                        <img src="uploads/{$item.photo}" width="237" height="105">
                         {/if}
                         <figcation class="img-tips">
                             <h4>{$item.summary}</h4>
